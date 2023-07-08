@@ -1,0 +1,12 @@
+.closeButton {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
