@@ -8,6 +8,7 @@ import OrderDetails from '../orderDetails/orderDetails'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import modalStyles from './modal.module.css';
+import ModalOverlay from '../overlay/modalOverlay'
 
 const modalRoot = document.querySelector('#react-modal')
 
@@ -25,11 +26,17 @@ function Modal({children, closeModal}) {
 
     return () => document.removeEventListener('keydown', closeOnEsc)
   }, [])
-
+  
   return ReactDOM.createPortal (
-    <div>
-      {children}
-    </div>, 
+    <>
+      <div className={modalStyles.modal}>
+        <div className={modalStyles.closeButton}>
+          <CloseIcon type="primary" onClick={closeModal} />
+        </div>
+        {children}
+      </div>
+      <ModalOverlay closeModal={closeModal} />
+    </>,
     modalRoot
   )
 }

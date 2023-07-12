@@ -8,9 +8,10 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import ingredientStyles from './ingredient.module.css'
 
 
-function Ingredient({ ingr, openModal}) {
+function Ingredient({setCardData, ingr, openModal}) {
 
   const onClick = () => {
+    setCardData(ingr);
     openModal('IngredientDetails', ingr)
   }
 
@@ -23,8 +24,8 @@ function Ingredient({ ingr, openModal}) {
 
       <img src={ingr.image} alt={ingr.name} className='ml-4 mr-4 mb-1'/>
 
-      <div className={`${ingredientStyles.price} mb-1 text text_type_digits-default`} >
-        <p style={{margin: 0}}>{ingr.price}</p>
+      <div className={ingredientStyles.price + ' mb-1 text text_type_digits-default'} >
+        <p className={ingredientStyles.count}>{ingr.price}</p>
         <CurrencyIcon type="primary" />
       </div>
 

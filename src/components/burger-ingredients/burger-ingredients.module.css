@@ -22,3 +22,6 @@
   max-height: 648px;
 }
 
+.tab {
+  display: flex;
+}
