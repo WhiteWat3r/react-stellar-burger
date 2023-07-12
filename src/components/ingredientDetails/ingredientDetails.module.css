@@ -1,0 +1,25 @@
+.modal {
+    min-width: 720px;
+    height: 538px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    align-self: flex-start;
+}
+
+.caloriesBlock {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

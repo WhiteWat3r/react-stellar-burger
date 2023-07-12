@@ -1,0 +1,19 @@
+.list {
+    text-align: center;
+    max-width: 272px;
+    position: relative;
+    text-decoration: none;
+    color: white;
+}
+
+
+.price {
+    display: flex;
+    justify-content: center;
+
+}
+
+
+.count {
+    margin: 0;
+}

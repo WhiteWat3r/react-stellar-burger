@@ -1,0 +1,52 @@
+.block {
+  max-width: 600px;
+  /* margin: 0 auto; */
+  /* display: flex;
+    justify-content: center; */
+    display: flex;
+    flex-direction: column;
+    /* max-height: 748px; */
+
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+}
+
+
+
+.item {
+  position: relative;
+}
+
+
+
+.itemIcon {
+  position: absolute;
+  left: 0;
+  top: 35%
+}
+
+
+.nachBlock {
+  overflow-y: scroll;
+  max-height: 460px;
+  display: flex;
+  flex-direction: column;
+}
+
+.basket {
+  display: flex;
+  align-self: flex-end;
+}
+
+.cost {
+  display: flex;
+  align-items: center;
+
+}

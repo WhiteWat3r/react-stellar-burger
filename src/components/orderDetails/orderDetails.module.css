@@ -1,0 +1,16 @@
+.modal {
+    min-width: 720px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 109px auto;
+}
+
+
+.title {
+    text-shadow:
+     rgba(51, 51, 225, 0.5) 0px 0px 15px,
+     rgba(51, 51, 225, 0.25) 0px 0px 15px,
+     rgba(51, 51, 225, 0.25) 0px 0px 15px
+}
