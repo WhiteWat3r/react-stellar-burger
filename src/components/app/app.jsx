@@ -20,7 +20,6 @@ const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
 function App() {
   const [ingredients, setIngredients] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [cardData, setCardData] = useState(null);
 
