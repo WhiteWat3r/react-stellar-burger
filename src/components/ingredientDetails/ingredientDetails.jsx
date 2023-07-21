@@ -4,8 +4,15 @@ import PropTypes from "prop-types";
 import { Typography } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetailsStyles from "./ingredientDetails.module.css";
+import { useSelector } from "react-redux";
 
-function IngredientDetails({cardData}) {
+function IngredientDetails() {
+
+
+  const ingr = useSelector(store => store.ingredient.currentIngredient)
+
+
+
   return (
     <div className={IngredientDetailsStyles.modal}>
       <h2
@@ -18,47 +25,42 @@ function IngredientDetails({cardData}) {
       </h2>
       <img
         className={IngredientDetailsStyles.image}
-        src={cardData.image_large}
-        alt={cardData.name}
+        src={ingr.image_large}
+        alt={ingr.name}
       />
 
-      <p className={"text text_type_main-medium mt-4 mb-8"}>{cardData.name}</p>
+      <p className={"text text_type_main-medium mt-4 mb-8"}>{ingr.name}</p>
 
       <ul className={IngredientDetailsStyles.caloriesBlock}>
         <li className={IngredientDetailsStyles.item}>
           <p className="text text_type_main-default text_color_inactive">
             Калории,ккал
           </p>
-          <p className="text text_type_digits-default">{cardData.calories}</p>
+          <p className="text text_type_digits-default">{ingr.calories}</p>
         </li>
         <li className={IngredientDetailsStyles.item}>
           <p className="text text_type_main-default text_color_inactive">
             Белки, г
           </p>
-          <p className="text text_type_digits-default">{cardData.proteins}</p>
+          <p className="text text_type_digits-default">{ingr.proteins}</p>
         </li>
         <li className={IngredientDetailsStyles.item}>
           <p className="text text_type_main-default text_color_inactive">
             Жиры, г
           </p>
-          <p className="text text_type_digits-default">{cardData.fat}</p>
+          <p className="text text_type_digits-default">{ingr.fat}</p>
         </li>
         <li className={IngredientDetailsStyles.item}>
           <p className="text text_type_main-default text_color_inactive">
             Углеводы, г
           </p>
           <p className="text text_type_digits-default">
-            {cardData.carbohydrates}
+            {ingr.carbohydrates}
           </p>
         </li>
       </ul>
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  cardData: PropTypes.object,
-  onClick: PropTypes.func,
-};
 
 export default IngredientDetails;

@@ -1,44 +1,52 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components'
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import ingredientStyles from './ingredient.module.css'
+import ingredientStyles from './ingredient.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentIngredient } from '../../services/actions/ingredient';
+import { openModal } from '../../services/actions/modal';
+import { useDrag } from 'react-dnd';
 
-
-function Ingredient({setCardData, ingr, openModal}) {
+function Ingredient({ ingr }) {
+  const dispatch = useDispatch();
 
   const onClick = () => {
-    setCardData(ingr);
-    openModal('IngredientDetails', ingr)
-  }
+    dispatch(setCurrentIngredient(ingr));
+    dispatch(openModal('IngredientDetails'));
+  };
 
+  const [{ isDrag }, drafRef] = useDrag({
+    type: 'ingredient',
+    item: ingr,
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
+  });
 
+  // const className = `${isDrag ? ingredientStyles.onDraggin : ingredientStyles.list}`
 
   return (
-    <a className={`${ingredientStyles.list} mt-6 mb-10 ml-4 mr-1`} href='#' onClick={onClick} >
+    <li className={`${ingredientStyles.list} mt-6 mb-10 ml-4 mr-1`} onClick={onClick} ref={drafRef}>
+      <Counter count={ingr.__v} size="default" extraClass="m-1" />
 
-      <Counter count={0} size="default" extraClass="m-1" />
+      <img src={ingr.image} alt={ingr.name} className="ml-4 mr-4 mb-1" />
 
-      <img src={ingr.image} alt={ingr.name} className='ml-4 mr-4 mb-1'/>
-
-      <div className={ingredientStyles.price + ' mb-1 text text_type_digits-default'} >
+      <div className={ingredientStyles.price + ' mb-1 text text_type_digits-default'}>
         <p className={ingredientStyles.count}>{ingr.price}</p>
         <CurrencyIcon type="primary" />
       </div>
 
       <p className={'text text_type_main-default mt-4 mb-4'}>{ingr.name}</p>
-      
-    </a>
-  )
+    </li>
+  );
 }
-
 
 Ingredient.propTypes = {
   ingr: PropTypes.object,
-  openModal: PropTypes.func
-}
+};
 
-export default Ingredient
+export default Ingredient;

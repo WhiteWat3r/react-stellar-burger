@@ -1,0 +1,11 @@
+.item {
+    position: relative;
+  }
+  
+  
+  
+  .itemIcon {
+    position: absolute;
+    left: 0;
+    top: 35%
+  }
