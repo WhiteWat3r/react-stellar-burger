@@ -13,6 +13,7 @@ import { openModal } from '../../services/actions/modal';
 import { useDrop } from 'react-dnd';
 import {
   addConstructorIngredient,
+  clearConstructor,
   removeConstructorIngredient,
   replaceConstructorBun,
   updateConstructorIngredients,
@@ -67,6 +68,8 @@ function BurgerConstructor() {
 
     dispatch(sendOrder(order));
     dispatch(openModal('OrderDetails'));
+    dispatch(clearConstructor())
+    dispatch(addConstructorIngredient(ingredients[0]));
   };
 
   const moveIngredient = (dragIndex, hoverIndex) => {

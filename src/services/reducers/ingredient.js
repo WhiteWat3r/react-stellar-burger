@@ -1,15 +1,16 @@
 import { data } from '../../utils/data';
 import {
   ADD_CONSTRUCTOR_INGREDIENT,
+  CLEAR_CONSTRUCTOR,
   REMOVE_CONSTRUCTOR_INGREDIENT,
   UPDATE_CONSTRUCTOR_INGREDIENTS,
+  REPLACE_CONSTRUCTOR_BUN
 } from '../actions/burgerConstructor';
 import {
   FETCH_INGREDIENTS_REQUEST,
   FETCH_INGREDIENTS_SUCCESS,
   FETCH_INGREDIENTS_FAILURE,
   SET_CURRENT_INGREDIENT,
-  REPLACE_CONSTRUCTOR_BUN,
   SEND_ORDER_SUCCESS,
   SEND_ORDER_FAILURE,
 } from '../actions/ingredient';
@@ -105,7 +106,7 @@ export const ingredientReducer = (state = initialState, action) => {
       };
 
     case SEND_ORDER_SUCCESS:
-      console.log('asdasdasd');
+      console.log('order');
       return {
         ...state,
         createdOrder: action.payload, //
@@ -120,7 +121,15 @@ export const ingredientReducer = (state = initialState, action) => {
         orderNumber: null,
         orderStatus: false,
       };
-
+      
+    case CLEAR_CONSTRUCTOR:
+      return {
+        ...state,
+        constructorItems: [],
+        items: state.items.map((item) => {
+          return {...item, __v: 0}
+        })
+      };
     default:
       return state;
   }
@@ -146,3 +155,7 @@ export const updateConstructorIngredients = (ingredients) => ({
   type: UPDATE_CONSTRUCTOR_INGREDIENTS,
   payload: ingredients,
 });
+
+export const clearConstructor = () => ({
+  type: CLEAR_CONSTRUCTOR
+})

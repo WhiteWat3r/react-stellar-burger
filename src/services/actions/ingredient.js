@@ -11,8 +11,6 @@ export const SEND_ORDER_FAILURE = 'SEND_ORDER_FAILURE';
 
 export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
-export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
-export const REPLACE_CONSTRUCTOR_BUN = 'REPLACE_CONSTRUCTOR_BUN';
 
 export const fetchIngredients = () => {
   return (dispatch) => {
