@@ -1,7 +1,6 @@
 .app {
   display: flex;
   flex-direction: column;
-  background-color: #131316;
   color: #f2f2f3;
   height: 100vh;
 }
@@ -11,5 +10,4 @@
   width: 100%;
   margin: 0 auto;
   display: flex;
-  /* background-color: #131316; */
 }

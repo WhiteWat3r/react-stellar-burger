@@ -1,80 +1,154 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-import { Typography } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import constructorStyles from "./burger-constructor.module.css";
+import constructorStyles from './burger-constructor.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import {
+  addConstructorIngredient,
+  removeConstructorIngredient,
+  replaceConstructorBun,
+  updateConstructorIngredients,
+} from '../../services/actions/burgerConstructor';
 
-function BurgerConstructor({ ingredients, openModal }) {
-  const onClick = () => {
-    openModal("OrderDetails");
+import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
+import { sendOrder } from '../../utils/api';
+
+function BurgerConstructor() {
+  const dispatch = useDispatch();
+
+  const [isConstructorEmpty, setISConstaructorEmpty] = useState(true);
+
+  const constructorIngredients = useSelector((store) => store.ingredient.constructorItems);
+
+  const bun = constructorIngredients.find((item) => {
+    return item.type === 'bun';
+  });
+
+  useEffect(() => {
+    const isEmpty = () => {
+      if (constructorIngredients.length > 1 && bun) {
+        return false;
+      }
+      return true;
+    };
+    setISConstaructorEmpty(isEmpty);
+
+    console.log(isConstructorEmpty);
+  }, [constructorIngredients]);
+
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(ingr) {
+      const bunIndex = constructorIngredients.findIndex((item) => item.type === 'bun');
+      // console.log(bun);
+      if (bunIndex !== -1 && ingr.type === 'bun') {
+        dispatch(replaceConstructorBun(ingr, bunIndex));
+      } else {
+        dispatch(addConstructorIngredient(ingr));
+      }
+    },
+  });
+
+  const onDelete = (ingr) => {
+    dispatch(removeConstructorIngredient(ingr));
+  };
+
+  const price = constructorIngredients.reduce((acc, item) => {
+    if (item.type === 'bun') {
+      return acc + item.price * 2;
+    }
+    return acc + item.price;
+  }, 0);
+
+  const handleOrderSubmitButton = () => {
+    const order = {
+      ingredients: constructorIngredients.map((item) => item._id),
+    };
+
+    dispatch(sendOrder(order));
+  };
+
+  const moveIngredient = (dragIndex, hoverIndex) => {
+    const draggedIngredient = constructorIngredients[dragIndex];
+    const updatedIngredients = [...constructorIngredients];
+    updatedIngredients.splice(dragIndex, 1);
+    updatedIngredients.splice(hoverIndex, 0, draggedIngredient);
+    dispatch(updateConstructorIngredients(updatedIngredients));
   };
 
   return (
-    <section className={constructorStyles.block + " pt-25 ml-10"}>
-      <ul className={constructorStyles.list + " ml-4 pr-4 mb-10"}>
+    <section className={constructorStyles.block + ' pt-25 ml-10'}>
+      <ul className={constructorStyles.list + ' ml-4 pr-4 mb-10'} ref={dropTarget}>
         <li className="ml-8">
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={ingredients[0].name + " (верх)"}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image}
-          />
+          {bun ? (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={bun.name + ' (верх)'}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          ) : (
+            <p
+              className={
+                constructorStyles.text + ' text text_type_digits-default text_color_inactive'
+              }>
+              Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа
+            </p>
+          )}
         </li>
 
-        <div className={constructorStyles.nachBlock + " custom-scroll"}>
-          {ingredients.map(
-            (ingr) =>
-              ingr.type !== "bun" && (
-                <li
-                  key={ingr._id}
-                  className={constructorStyles.item + " pl-8 mb-4"}
-                >
-                  <div className={constructorStyles.itemIcon}>
-                    <DragIcon type="primary" />
-                  </div>
-                  <ConstructorElement
-                    text={ingr.name}
-                    price={ingr.price}
-                    thumbnail={ingr.image}
-                  />
-                </li>
-              )
+        <div className={constructorStyles.nachBlock + ' custom-scroll'}>
+          {constructorIngredients.map(
+            (ingr, index) =>
+              ingr.type !== 'bun' && (
+                <ConstructorIngredient
+                  ingr={ingr}
+                  onDelete={onDelete}
+                  key={ingr.uniqueId}
+                  index={index}
+                  moveIngredient={moveIngredient}
+                />
+              ),
           )}
         </div>
 
-        <li className="ml-8">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={ingredients[0].name + " (низ)"}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image}
-          />
-        </li>
+        {bun && (
+          <li className="ml-8">
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={bun.name + ' (низ)'}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </li>
+        )}
       </ul>
 
       <div className={constructorStyles.basket}>
-        <div className={constructorStyles.cost + " mr-10"}>
-          <p className="text text_type_digits-medium">610</p>
+        <div className={constructorStyles.cost + ' mr-10'}>
+          <p className="text text_type_digits-medium">{price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={onClick}>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={handleOrderSubmitButton}
+          disabled={isConstructorEmpty}>
           Оформить заказ
         </Button>
       </div>
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.array,
-  openModal: PropTypes.func,
-};
 
 export default BurgerConstructor;
