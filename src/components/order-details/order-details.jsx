@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import orderDetailsStyles from './orderDetails.module.css';
+import orderDetailsStyles from './order-details.module.css';
 import doneImage from '../../images/done1.png';
 import { useSelector } from 'react-redux';
 import Loader from '../loader/loader';
 
 function OrderDetails() {
   const orderNumber = useSelector((store) => store.ingredient.orderNumber);
-
 
   return (
     <div className={orderDetailsStyles.modal}>
@@ -30,6 +29,5 @@ function OrderDetails() {
     </div>
   );
 }
-
 
 export default OrderDetails;

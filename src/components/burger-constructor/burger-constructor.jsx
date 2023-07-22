@@ -9,29 +9,39 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 import constructorStyles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { openModal } from '../../services/actions/modal';
 import { useDrop } from 'react-dnd';
 import {
   addConstructorIngredient,
-  clearConstructor,
   removeConstructorIngredient,
   replaceConstructorBun,
   updateConstructorIngredients,
-} from '../../services/reducers/ingredient';
+} from '../../services/actions/burgerConstructor';
 
-import ConstructorIngredient from '../constructorIngredient/constructorIngredient';
-import { sendOrder } from '../../services/actions/ingredient';
+import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
+import { sendOrder } from '../../utils/api';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(addConstructorIngredient(ingredients[0]));
-    // console.log('add default bun');
-  }, []);
+  const [isConstructorEmpty, setISConstaructorEmpty] = useState(true);
 
-  const ingredients = useSelector((store) => store.ingredient.items);
   const constructorIngredients = useSelector((store) => store.ingredient.constructorItems);
+
+  const bun = constructorIngredients.find((item) => {
+    return item.type === 'bun';
+  });
+
+  useEffect(() => {
+    const isEmpty = () => {
+      if (constructorIngredients.length > 1 && bun) {
+        return false;
+      }
+      return true;
+    };
+    setISConstaructorEmpty(isEmpty);
+
+    console.log(isConstructorEmpty);
+  }, [constructorIngredients]);
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -57,19 +67,12 @@ function BurgerConstructor() {
     return acc + item.price;
   }, 0);
 
-  const bun = constructorIngredients.find((item) => {
-    return item.type === 'bun';
-  });
-
   const handleOrderSubmitButton = () => {
     const order = {
       ingredients: constructorIngredients.map((item) => item._id),
     };
 
     dispatch(sendOrder(order));
-    dispatch(openModal('OrderDetails'));
-    dispatch(clearConstructor())
-    dispatch(addConstructorIngredient(ingredients[0]));
   };
 
   const moveIngredient = (dragIndex, hoverIndex) => {
@@ -81,10 +84,10 @@ function BurgerConstructor() {
   };
 
   return (
-    constructorIngredients.length > 0 && (
-      <section className={constructorStyles.block + ' pt-25 ml-10'}>
-        <ul className={constructorStyles.list + ' ml-4 pr-4 mb-10'} ref={dropTarget}>
-          <li className="ml-8">
+    <section className={constructorStyles.block + ' pt-25 ml-10'}>
+      <ul className={constructorStyles.list + ' ml-4 pr-4 mb-10'} ref={dropTarget}>
+        <li className="ml-8">
+          {bun ? (
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -92,23 +95,32 @@ function BurgerConstructor() {
               price={bun.price}
               thumbnail={bun.image}
             />
-          </li>
+          ) : (
+            <p
+              className={
+                constructorStyles.text + ' text text_type_digits-default text_color_inactive'
+              }>
+              Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа
+            </p>
+          )}
+        </li>
 
-          <div className={constructorStyles.nachBlock + ' custom-scroll'}>
-            {constructorIngredients.map(
-              (ingr, index) =>
-                ingr.type !== 'bun' && (
-                  <ConstructorIngredient
-                    ingr={ingr}
-                    onDelete={onDelete}
-                    key={ingr._id + Math.random()}
-                    index={index}
-                    moveIngredient={moveIngredient}
-                  />
-                ),
-            )}
-          </div>
+        <div className={constructorStyles.nachBlock + ' custom-scroll'}>
+          {constructorIngredients.map(
+            (ingr, index) =>
+              ingr.type !== 'bun' && (
+                <ConstructorIngredient
+                  ingr={ingr}
+                  onDelete={onDelete}
+                  key={ingr.uniqueId}
+                  index={index}
+                  moveIngredient={moveIngredient}
+                />
+              ),
+          )}
+        </div>
 
+        {bun && (
           <li className="ml-8">
             <ConstructorElement
               type="bottom"
@@ -118,22 +130,25 @@ function BurgerConstructor() {
               thumbnail={bun.image}
             />
           </li>
-        </ul>
+        )}
+      </ul>
 
-        <div className={constructorStyles.basket}>
-          <div className={constructorStyles.cost + ' mr-10'}>
-            <p className="text text_type_digits-medium">{price}</p>
-            <CurrencyIcon type="primary" />
-          </div>
-          <Button htmlType="button" type="primary" size="large" onClick={handleOrderSubmitButton}>
-            Оформить заказ
-          </Button>
+      <div className={constructorStyles.basket}>
+        <div className={constructorStyles.cost + ' mr-10'}>
+          <p className="text text_type_digits-medium">{price}</p>
+          <CurrencyIcon type="primary" />
         </div>
-      </section>
-    )
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={handleOrderSubmitButton}
+          disabled={isConstructorEmpty}>
+          Оформить заказ
+        </Button>
+      </div>
+    </section>
   );
 }
-
-
 
 export default BurgerConstructor;

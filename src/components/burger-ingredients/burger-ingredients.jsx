@@ -26,13 +26,22 @@ function BurgerIngredients() {
     return offsetTop;
   };
 
+  const bunTab = useRef();
+  console.log(bunTab.current);
+
+  const sauceTab = useRef();
+  console.log(sauceTab.current);
+
+  const mainTab = useRef();
+  console.log(mainTab.current);
+
   const handleScroll = () => {
     const scrollDiv = scrollDivRef.current;
     const scrollPosition = scrollDiv.scrollTop;
 
     // верхние отступы для блоков
-    const sauceTabTop = getOffsetTop(scrollDiv.querySelector('#sauce-tab-content'));
-    const mainTabTop = getOffsetTop(scrollDiv.querySelector('#main-tab-content'));
+    const sauceTabTop = getOffsetTop(sauceTab.current);
+    const mainTabTop = getOffsetTop(mainTab.current);
 
     // определение таба
     if (scrollPosition >= mainTabTop) {
@@ -45,35 +54,14 @@ function BurgerIngredients() {
   };
 
   const handleTabClick = (tabValue) => {
-    const scrollDiv = scrollDivRef.current;
-    const bunTab = scrollDiv.querySelector('#bun-tab-content');
-    const sauceTab = scrollDiv.querySelector('#sauce-tab-content');
-    const mainTab = scrollDiv.querySelector('#main-tab-content');
-
     if (tabValue === 'bun') {
-      const bunTabTop =
-        bunTab.getBoundingClientRect().top -
-        scrollDiv.getBoundingClientRect().top +
-        scrollDiv.scrollTop;
-      // console.log(bunTabTop);
-      scrollDiv.scrollTo({ top: bunTabTop, behavior: 'smooth' });
+      bunTab.current.scrollIntoView({ behavior: 'smooth' });
     } else if (tabValue === 'sauce') {
-      const sauceTabTop =
-        sauceTab.getBoundingClientRect().top -
-        scrollDiv.getBoundingClientRect().top +
-        scrollDiv.scrollTop;
-      // console.log(sauceTabTop);
-      scrollDiv.scrollTo({ top: sauceTabTop, behavior: 'smooth' });
+      sauceTab.current.scrollIntoView({ behavior: 'smooth' });
     } else if (tabValue === 'main') {
-      const mainTabTop =
-        mainTab.getBoundingClientRect().top -
-        scrollDiv.getBoundingClientRect().top +
-        scrollDiv.scrollTop;
-      // console.log(mainTabTop);
-      scrollDiv.scrollTo({ top: mainTabTop, behavior: 'smooth' });
+      mainTab.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
 
   useEffect(() => {
     const scrollDiv = scrollDivRef.current;
@@ -99,7 +87,7 @@ function BurgerIngredients() {
         </Tab>
       </div>
       <div className={ingredientsStyles.scrollDiv + ' custom-scroll'} ref={scrollDivRef}>
-        <div id="bun-tab-content">
+        <div id="bun-tab-content" ref={bunTab}>
           <h2 className="text text_type_main-medium">Булки</h2>
           <ul className={ingredientsStyles.items}>
             {ingredients.map(
@@ -108,7 +96,7 @@ function BurgerIngredients() {
           </ul>
         </div>
 
-        <div id="sauce-tab-content">
+        <div id="sauce-tab-content" ref={sauceTab}>
           <h2 className="text text_type_main-medium">Cоусы</h2>
           <ul className={ingredientsStyles.items}>
             {ingredients.map(
@@ -117,7 +105,7 @@ function BurgerIngredients() {
           </ul>
         </div>
 
-        <div id="main-tab-content">
+        <div id="main-tab-content" ref={mainTab}>
           <h2 className="text text_type_main-medium">Начинки</h2>
           <ul className={ingredientsStyles.items}>
             {ingredients.map(
@@ -129,6 +117,5 @@ function BurgerIngredients() {
     </section>
   );
 }
-
 
 export default BurgerIngredients;

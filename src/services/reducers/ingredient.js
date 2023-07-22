@@ -4,7 +4,7 @@ import {
   CLEAR_CONSTRUCTOR,
   REMOVE_CONSTRUCTOR_INGREDIENT,
   UPDATE_CONSTRUCTOR_INGREDIENTS,
-  REPLACE_CONSTRUCTOR_BUN
+  REPLACE_CONSTRUCTOR_BUN,
 } from '../actions/burgerConstructor';
 import {
   FETCH_INGREDIENTS_REQUEST,
@@ -121,41 +121,16 @@ export const ingredientReducer = (state = initialState, action) => {
         orderNumber: null,
         orderStatus: false,
       };
-      
+
     case CLEAR_CONSTRUCTOR:
       return {
         ...state,
         constructorItems: [],
         items: state.items.map((item) => {
-          return {...item, __v: 0}
-        })
+          return { ...item, __v: 0 };
+        }),
       };
     default:
       return state;
   }
 };
-
-export const addConstructorIngredient = (ingredient) => ({
-  type: ADD_CONSTRUCTOR_INGREDIENT,
-  payload: ingredient,
-});
-
-export const removeConstructorIngredient = (ingredient) => ({
-  type: REMOVE_CONSTRUCTOR_INGREDIENT,
-  payload: ingredient,
-});
-
-export const replaceConstructorBun = (ingredient, index) => ({
-  type: REPLACE_CONSTRUCTOR_BUN,
-  payload: ingredient,
-  index,
-});
-
-export const updateConstructorIngredients = (ingredients) => ({
-  type: UPDATE_CONSTRUCTOR_INGREDIENTS,
-  payload: ingredients,
-});
-
-export const clearConstructor = () => ({
-  type: CLEAR_CONSTRUCTOR
-})

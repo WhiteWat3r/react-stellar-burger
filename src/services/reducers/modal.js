@@ -1,5 +1,5 @@
-import IngredientDetails from '../../components/ingredientDetails/ingredientDetails';
-import OrderDetails from '../../components/orderDetails/orderDetails';
+import IngredientDetails from '../../components/ingredient-details/ingredient-details';
+import OrderDetails from '../../components/order-details/order-details';
 import { CLOSE_MODAL, OPEN_MODAL, ModalTypes } from '../actions/modal';
 
 const initialState = {

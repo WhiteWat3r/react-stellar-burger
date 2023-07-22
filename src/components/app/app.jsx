@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Loader from '../loader/loader';
 import Modal from '../modal/modal';
-import ModalOverlay from '../overlay/modalOverlay';
+import ModalOverlay from '../overlay/modal-overlay';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -12,10 +12,10 @@ import { data } from '../../utils/data';
 
 import styles from './app.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredients } from '../../services/actions/ingredient';
 import { getModalComponent } from '../../services/reducers/modal';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { getIngredients } from '../../utils/api';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function App() {
   const ingredients = useSelector((store) => store.ingredient.items);
 
   useEffect(() => {
-    dispatch(fetchIngredients());
+    dispatch(getIngredients());
     console.log('FIRST');
   }, [dispatch]);
 
@@ -49,11 +49,9 @@ function App() {
           </main>
         )}
         {isModalOpen && (
-          <>
-            <Modal>
-              <ModalComponent />
-            </Modal>
-          </>
+          <Modal>
+            <ModalComponent />
+          </Modal>
         )}
       </div>
     )

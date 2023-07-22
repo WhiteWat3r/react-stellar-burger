@@ -1,7 +1,7 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import React, { useRef } from 'react';
-import constructorIngredientStyles from './constructorIngredient.module.css';
+import constructorIngredientStyles from './constructor-ingredient.module.css';
 import PropTypes from 'prop-types';
 
 function ConstructorIngredient({ ingr, onDelete, index, moveIngredient }) {
@@ -12,7 +12,7 @@ function ConstructorIngredient({ ingr, onDelete, index, moveIngredient }) {
 
   const [, drop] = useDrop({
     accept: 'constructor-ingredient',
-    drop(item) {
+    hover(item) {
       if (!ref.current) {
         return;
       }
@@ -48,7 +48,7 @@ ConstructorIngredient.propTypes = {
   ingr: PropTypes.object,
   onDelete: PropTypes.func,
   index: PropTypes.number,
-  moveIngredient: PropTypes.func
+  moveIngredient: PropTypes.func,
 };
 
 export default ConstructorIngredient;
