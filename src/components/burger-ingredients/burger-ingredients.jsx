@@ -27,13 +27,9 @@ function BurgerIngredients() {
   };
 
   const bunTab = useRef();
-  console.log(bunTab.current);
-
   const sauceTab = useRef();
-  console.log(sauceTab.current);
-
   const mainTab = useRef();
-  console.log(mainTab.current);
+
 
   const handleScroll = () => {
     const scrollDiv = scrollDivRef.current;

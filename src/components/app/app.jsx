@@ -29,10 +29,10 @@ function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
-    console.log('FIRST');
+    // console.log('FIRST');
   }, [dispatch]);
 
-  console.log('REFRESH');
+  // console.log('REFRESH');
   return (
     ingredients.length > 0 && (
       <div className={styles.app}>
