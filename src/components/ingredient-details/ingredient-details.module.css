@@ -23,3 +23,12 @@
     flex-direction: column;
     align-items: center;
 }
+
+.header {
+    margin: 120px auto 0;
+}
+
+.notFound {
+    font-size: 60px;
+    margin-top: 300px;
+}

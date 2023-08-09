@@ -17,7 +17,7 @@
     width: 100%;
     margin: 0 auto;
     min-height: 88px;
-    justify-content: space-between;
+    justify-content:flex-end;
     background-color: #1C1C21;  
 }
 
@@ -41,3 +41,6 @@
     align-items: center;
     justify-self: end;
 }
+
+
+

@@ -19,11 +19,14 @@ import {
 
 import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
 import { sendOrder } from '../../utils/api';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-
+const navigate = useNavigate()
   const [isConstructorEmpty, setISConstaructorEmpty] = useState(true);
+  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
+  const location = useLocation()
 
   const constructorIngredients = useSelector((store) => store.ingredient.constructorItems);
 
@@ -72,7 +75,16 @@ function BurgerConstructor() {
       ingredients: constructorIngredients.map((item) => item._id),
     };
 
-    dispatch(sendOrder(order));
+
+    if (isAuthenticated) {
+      dispatch(sendOrder(order));
+    } else {
+
+
+    localStorage.setItem('redirectPath', location.pathname);
+    // return <Navigate to="/login" replace /> 
+    navigate('/login', {replace: true})
+  }
   };
 
   const moveIngredient = (dragIndex, hoverIndex) => {

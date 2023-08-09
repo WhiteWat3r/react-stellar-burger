@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import IngredientDetailsStyles from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { setCurrentIngredient } from '../../services/actions/ingredient';
+import { openModal } from '../../services/actions/modal';
 
-function IngredientDetails() {
-  const ingr = useSelector((store) => store.ingredient.currentIngredient);
+function IngredientDetails({ isPage }) {
+  // const ingr = useSelector((store) => store.ingredient.currentIngredient);
+  // console.log(ingr);
+
+  const { id } = useParams();
+
+  const ingredients = useSelector((state) => state.ingredient.items);
+  const ingr = ingredients.find((ingredient) => ingredient._id === id);
+
+  console.log(ingr);
+  if (!ingr) {
+    return <div className={IngredientDetailsStyles.notFound}>Такого ингредиента пока нет</div>;
+  }
 
   return (
     <div className={IngredientDetailsStyles.modal}>
-      <h2 className={IngredientDetailsStyles.title + ' text text_type_main-large mt-10 ml-10'}>
+      <h2
+        className={
+          isPage
+            ? IngredientDetailsStyles.header + ' text text_type_main-large mt-10 ml-10'
+            : IngredientDetailsStyles.title + ' text text_type_main-large mt-10 ml-10'
+        }>
         Детали ингридиента
       </h2>
       <img className={IngredientDetailsStyles.image} src={ingr.image_large} alt={ingr.name} />
@@ -39,5 +58,11 @@ function IngredientDetails() {
     </div>
   );
 }
+
+
+
+IngredientDetails.propTypes = {
+  isPage: PropTypes.bool,
+};
 
 export default IngredientDetails;

@@ -1,4 +1,3 @@
-import { data } from '../../utils/data';
 import {
   ADD_CONSTRUCTOR_INGREDIENT,
   CLEAR_CONSTRUCTOR,

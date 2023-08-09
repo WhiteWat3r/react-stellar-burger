@@ -10,12 +10,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/ingredient';
 import { openModal } from '../../services/actions/modal';
 import { useDrag } from 'react-dnd';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function Ingredient({ ingr }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onClick = () => {
     dispatch(setCurrentIngredient(ingr));
+
+    // console.log(location);
+
+    navigate(`/ingredients/${ingr._id}`, {
+      state: { background: location },
+    });
+
     dispatch(openModal('IngredientDetails'));
   };
 
@@ -30,7 +40,7 @@ function Ingredient({ ingr }) {
   // const className = `${isDrag ? ingredientStyles.onDraggin : ingredientStyles.list}`
 
   return (
-    <li className={`${ingredientStyles.list} mt-6 mb-10 ml-4 mr-1`} onClick={onClick} ref={drafRef}>
+    <li onClick={onClick} className={`${ingredientStyles.list} mt-6 mb-10 ml-4 mr-1`} ref={drafRef}>
       <Counter count={ingr.__v} size="default" extraClass="m-1" />
 
       <img src={ingr.image} alt={ingr.name} className="ml-4 mr-4 mb-1" />
