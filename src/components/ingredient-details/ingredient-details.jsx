@@ -5,9 +5,7 @@ import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import IngredientDetailsStyles from './ingredient-details.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { setCurrentIngredient } from '../../services/actions/ingredient';
-import { openModal } from '../../services/actions/modal';
+import { useParams } from 'react-router-dom';
 
 function IngredientDetails({ isPage }) {
   // const ingr = useSelector((store) => store.ingredient.currentIngredient);

@@ -4,6 +4,8 @@
     position: relative;
     text-decoration: none;
     color: white;
+    cursor: pointer;
+
 }
 
 
@@ -20,5 +22,5 @@
 
 .link {
     text-decoration: none;
-    color: white
+    color: white;
 }

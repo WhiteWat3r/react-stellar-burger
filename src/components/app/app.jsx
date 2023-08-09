@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import Loader from '../loader/loader';
-import Modal from '../modal/modal';
+
 
 import AppHeader from '../app-header/app-header';
 
@@ -10,18 +10,9 @@ import styles from './app.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getModalComponent } from '../../services/reducers/modal';
 import { getIngredients } from '../../utils/api';
-import HomePage from '../../pages/homePage/HomePage';
-import AuthPage from '../../pages/authPage/authPage';
-import RegisterPage from '../../pages/registerPage/registerPage';
-import ForgotPasswordPage from '../../pages/forgotPasswordPage/forgotPasswordPage';
-import ResetPasswordPage from '../../pages/resetPassword/resetPasswordPage';
-import ProfilePage from '../../pages/profilePage/profilePage';
-import { ProtectedRouteElement } from '../ProtectedRoutElement/ProtectedRoutElement';
+
 import { getCookie } from '../../utils/cookie';
 import { getUserData } from '../../utils/api';
-import ErrorPage from '../../pages/ErrorPage/errorPage';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import mainContent from '../mainContent/mainContent';
 import MainContent from '../mainContent/mainContent';
 
 function App() {

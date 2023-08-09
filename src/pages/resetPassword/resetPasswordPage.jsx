@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import style from './resetPasswordPage.module.css';
 import { Input, Typography, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../utils/api';
 import Loader from '../../components/loader/loader';
