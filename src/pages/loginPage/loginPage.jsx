@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-import style from './authPage.module.css';
+import style from './loginPage.module.css';
 import { Input, Typography, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../utils/api';
 import Loader from '../../components/loader/loader';
 
-function AuthPage() {
+function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,7 +21,6 @@ function AuthPage() {
 
   const inputRef = useRef(null);
   const dispatch = useDispatch();
-  // console.log(authProcess);
 
   const onIconClick = () => {
     if (typeInput === 'password') {
@@ -31,7 +30,9 @@ function AuthPage() {
     }
   };
 
-  const onClick = async () => {
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+
     try {
       await dispatch(login(email, password));
     } catch (error) {
@@ -41,7 +42,7 @@ function AuthPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/profile');
+      navigate('/profile', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
@@ -51,45 +52,46 @@ function AuthPage() {
         <Loader />
       ) : (
         <>
+          <form onSubmit={handleSubmitForm}>
           <h1 className={'text text_type_main-medium mb-6'}>Вход</h1>
 
-          <div className="mb-6">
-            <Input
-              type={'email'}
-              placeholder={'E-mail'}
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              name={'name'}
-              error={false}
-              ref={inputRef}
-              errorText={'Ошибка'}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
+            <div className="mb-6">
+              <Input
+                type='email'
+                placeholder='E-mail'
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                name='name'
+                error={false}
+                ref={inputRef}
+                errorText='Ошибка'
+                size='default'
+                extraClass="ml-1"
+              />
+            </div>
 
-          <div className="mb-6">
-            <Input
-              type={typeInput}
-              placeholder={'Пароль'}
-              onChange={(e) => setPassword(e.target.value)}
-              icon={'ShowIcon'}
-              value={password}
-              name={'name'}
-              error={loginError ? true : false}
-              ref={inputRef}
-              onIconClick={onIconClick}
-              errorText={'Ошибка авторизации'}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
-          <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={onClick}>
-              Войти
-            </Button>
-          </div>
-
+            <div className="mb-6">
+              <Input
+                type={typeInput}
+                placeholder='Пароль'
+                onChange={(e) => setPassword(e.target.value)}
+                icon='ShowIcon'
+                value={password}
+                name='name'
+                error={loginError ? true : false}
+                ref={inputRef}
+                onIconClick={onIconClick}
+                errorText='Ошибка авторизации'
+                size='default'
+                extraClass="ml-1"
+              />
+            </div>
+            <div className="mb-20">
+              <Button htmlType='submit' type="primary" size="large">
+                Войти
+              </Button>
+            </div>
+          </form>
           <div className={style.auth}>
             <p className="text text_type_main-default text_color_inactive mb-4 mr-2">
               Вы - новый пользователь?
@@ -110,4 +112,4 @@ function AuthPage() {
   );
 }
 
-export default AuthPage;
+export default LoginPage;

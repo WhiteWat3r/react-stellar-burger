@@ -128,14 +128,11 @@ export const refreshToken = () => {
 export const getUserData = () => {
   return async (dispatch) => {
     try {
-      console.log('1');
 
       const response = await authRequest('/auth/user');
-      console.log(response);
 
       if (response.success) {
         dispatch(getUserDataSuccess(response.user));
-        console.log('2');
       }
     } catch (error) {
       console.log('3');
@@ -242,7 +239,6 @@ export const resetPassword = (password, token) => {
     } catch (error) {
       dispatch(resetPasswordFailed(error));
 
-      console.log('1');
 
       console.error('Ошибка при восстановлении пароля:', error);
       return { error: true };

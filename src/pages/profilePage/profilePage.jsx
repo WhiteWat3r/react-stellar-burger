@@ -35,7 +35,6 @@ function ProfilePage() {
   useEffect(() => {
     if (isAuthenticated && redirectPath) {
       localStorage.removeItem('redirectPath');
-      console.log(redirectPath);
       navigate(redirectPath, { replace: true });
     }
   }, [isAuthenticated, redirectPath]);
