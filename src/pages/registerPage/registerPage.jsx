@@ -13,7 +13,6 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
   const authProcess = useSelector((store) => store.auth.authProcess);
 
   const error = useSelector((store) => store.auth.error);
@@ -22,8 +21,7 @@ function RegisterPage() {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
 
-
-  const onClick = async () => {
+  const handleSubmitForm = async () => {
     const response = await dispatch(register(email, password, name));
 
     if (!response.error) {
@@ -31,69 +29,68 @@ function RegisterPage() {
     }
   };
 
-  if (isAuthenticated) {
-    return <Navigate to={'/'} replace />;
-  }
   return (
     <div className={style.container}>
       {authProcess ? (
         <Loader />
       ) : (
         <>
-          <h1 className={'text text_type_main-medium mb-6'}>Регистрация</h1>
+          <form onSubmit={handleSubmitForm}>
+            <h1 className={'text text_type_main-medium mb-6'}>Регистрация</h1>
 
-          <div className="mb-6">
-            <Input
-              type={'text'}
-              placeholder={'Имя'}
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              name={'Имя'}
-              error={false}
-              ref={inputRef}
-              errorText={'Ошибка'}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
+            <div className="mb-6">
+              <Input
+                type="text"
+                placeholder="Имя"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                name="Имя"
+                error={false}
+                ref={inputRef}
+                errorText="Ошибка"
+                size="default"
+                extraClass="ml-1"
+              />
+            </div>
 
-          <div className="mb-6">
-            <Input
-              type={'email'}
-              placeholder={'E-mail'}
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              name={'name'}
-              error={error ? true : false}
-              ref={inputRef}
-              errorText={'Ошибка, проверьте правильность введенных данных'}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
+            <div className="mb-6">
+              <Input
+                type="email"
+                placeholder="E-mail"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                name="name"
+                error={error ? true : false}
+                ref={inputRef}
+                errorText="Ошибка, проверьте правильность введенных данных"
+                size="default"
+                extraClass="ml-1"
+              />
+            </div>
 
-          <div className="mb-6">
-            <Input
-              type={'text'}
-              placeholder={'Пароль'}
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              name={'Имя'}
-              error={false}
-              ref={inputRef}
-              //   onIconClick={onIconClick}
-              icon={'ShowIcon'}
-              errorText={''}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
+            <div className="mb-6">
+              <Input
+                type="text"
+                placeholder="Пароль"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                name="Имя"
+                error={false}
+                ref={inputRef}
+                //   onIconClick={onIconClick}
+                icon="ShowIcon"
+                errorText=""
+                size="default"
+                extraClass="ml-1"
+              />
+            </div>
 
-          <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={onClick}>
-              Зарегистрироваться
-            </Button>
-          </div>
+            <div className="mb-20">
+              <Button type="primary" size="large"  htmlType="submit">
+                Зарегистрироваться
+              </Button>
+            </div>
+          </form>
 
           <div className={style.auth}>
             <p className="text text_type_main-default text_color_inactive mr-2">

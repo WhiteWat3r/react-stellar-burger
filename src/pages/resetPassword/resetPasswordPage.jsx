@@ -18,10 +18,10 @@ function ResetPasswordPage() {
   const emailFromState = location.state && location.state.email ? location.state.email : '';
 
   useEffect(() => {
-    if (isAuthenticated || !emailFromState) {
+    if (!emailFromState) {
       navigate('/', { replace: true });
     }
-  }, [isAuthenticated, navigate, emailFromState]);
+  }, [navigate, emailFromState]);
 
   const authProcess = useSelector((store) => store.auth.authProcess);
   const error = useSelector((store) => store.auth.resetPasswordError);
@@ -33,7 +33,7 @@ function ResetPasswordPage() {
 
   const inputRef = useRef(null);
 
-  const onClick = async () => {
+  const handleSubmitForm = async () => {
     const response = await dispatch(resetPassword(password, recoverytoken));
     if (!response.error) {
       navigate('/login');
@@ -46,44 +46,46 @@ function ResetPasswordPage() {
         <Loader />
       ) : (
         <>
-          <h1 className={'text text_type_main-medium mb-6'}>Восстановление пароля</h1>
+          <form onSubmit={handleSubmitForm}>
+            <h1 className={'text text_type_main-medium mb-6'}>Восстановление пароля</h1>
 
-          <div className="mb-6">
-            <Input
-              type={'text'}
-              placeholder={'Введите новый пароль'}
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              name={'Имя'}
-              error={false}
-              ref={inputRef}
-              //   onIconClick={onIconClick}
-              icon={'ShowIcon'}
-              errorText={'Ошибка восстановления пароля'}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
+            <div className="mb-6">
+              <Input
+                type={'text'}
+                placeholder={'Введите новый пароль'}
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                name={'Имя'}
+                error={false}
+                ref={inputRef}
+                //   onIconClick={onIconClick}
+                icon={'ShowIcon'}
+                errorText={'Ошибка восстановления пароля'}
+                size={'default'}
+                extraClass="ml-1"
+              />
+            </div>
 
-          <div className="mb-6">
-            <Input
-              type={'text'}
-              placeholder={'Введите код из письма'}
-              onChange={(e) => setRecoverytoken(e.target.value)}
-              value={recoverytoken}
-              name={'Имя'}
-              error={error ? true : false}
-              ref={inputRef}
-              errorText={'Ошибка восстановления пароля'}
-              size={'default'}
-              extraClass="ml-1"
-            />
-          </div>
-          <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={onClick}>
-              Восстановить
-            </Button>
-          </div>
+            <div className="mb-6">
+              <Input
+                type={'text'}
+                placeholder={'Введите код из письма'}
+                onChange={(e) => setRecoverytoken(e.target.value)}
+                value={recoverytoken}
+                name={'Имя'}
+                error={error ? true : false}
+                ref={inputRef}
+                errorText={'Ошибка восстановления пароля'}
+                size={'default'}
+                extraClass="ml-1"
+              />
+            </div>
+            <div className="mb-20">
+              <Button type="primary" size="large" htmlType="submit"> 
+                Восстановить
+              </Button>
+            </div>
+          </form>
 
           <div className={style.auth}>
             <p className="text text_type_main-default text_color_inactive mr-2">

@@ -1,6 +1,4 @@
-import IngredientDetails from '../../components/ingredient-details/ingredient-details';
-import OrderDetails from '../../components/order-details/order-details';
-import { CLOSE_MODAL, OPEN_MODAL, ModalTypes } from '../actions/modal';
+import { CLOSE_MODAL, OPEN_MODAL } from '../actions/modal';
 
 const initialState = {
   isModalOpen: false,
@@ -12,25 +10,14 @@ export const modalReducer = (state = initialState, action) => {
     case OPEN_MODAL:
       return {
         isModalOpen: true,
-        currentModal: action.payload,
+        // currentModal: action.payload,
       };
     case CLOSE_MODAL:
       return {
         isModalOpen: false,
-        currentModal: null,
+        // currentModal: null,
       };
     default:
       return state;
-  }
-};
-
-export const getModalComponent = (currentModal) => {
-  switch (currentModal) {
-    case ModalTypes.INGREDIENT_DETAILS:
-      return IngredientDetails;
-    case ModalTypes.ORDER_DETAILS:
-      return OrderDetails;
-    default:
-      return null;
   }
 };

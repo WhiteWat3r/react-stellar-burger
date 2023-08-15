@@ -8,7 +8,6 @@ import AppHeader from '../app-header/app-header';
 
 import styles from './app.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getModalComponent } from '../../services/reducers/modal';
 import { getIngredients } from '../../utils/api';
 
 import { getCookie } from '../../utils/cookie';
@@ -19,9 +18,9 @@ function App() {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((store) => store.ingredient.isLoading);
-  const isModalOpen = useSelector((store) => store.modal.isModalOpen);
-  const currentModal = useSelector((store) => store.modal.currentModal);
-  const ModalComponent = getModalComponent(currentModal);
+  // const isModalOpen = useSelector((store) => store.modal.isModalOpen);
+  // const currentModal = useSelector((store) => store.modal.currentModal);
+
 
   const ingredients = useSelector((store) => store.ingredient.items);
 

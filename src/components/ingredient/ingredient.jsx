@@ -26,7 +26,7 @@ function Ingredient({ ingr }) {
       state: { background: location },
     });
 
-    dispatch(openModal('IngredientDetails'));
+    // dispatch(openModal('IngredientDetails'));
   };
 
   const [{ isDrag }, drafRef] = useDrag({

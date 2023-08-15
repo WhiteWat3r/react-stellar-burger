@@ -6,10 +6,9 @@ export const ModalTypes = {
   INGREDIENT_DETAILS: 'IngredientDetails',
 };
 
-export const openModal = (modalType) => {
+export const openModal = () => {
   return {
-    type: OPEN_MODAL,
-    payload: modalType,
+    type: OPEN_MODAL
   };
 };
 
