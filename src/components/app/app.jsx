@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 import Loader from '../loader/loader';
-
+import Modal from '../modal/modal';
+import ModalOverlay from '../overlay/modal-overlay';
 
 import AppHeader from '../app-header/app-header';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+
+import { data } from '../../utils/data';
 
 import styles from './app.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getModalComponent } from '../../services/reducers/modal';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { getIngredients } from '../../utils/api';
-
-import { getCookie } from '../../utils/cookie';
-import { getUserData } from '../../utils/api';
-import MainContent from '../mainContent/mainContent';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,35 +27,34 @@ function App() {
 
   const ingredients = useSelector((store) => store.ingredient.items);
 
-  const accessToken = getCookie('accessToken');
-
   useEffect(() => {
     dispatch(getIngredients());
-
-    // console.log(accessToken);
-
-    if (accessToken) {
-      console.log('start');
-      dispatch(getUserData());
-    }
+    // console.log('FIRST');
   }, [dispatch]);
 
   // console.log('REFRESH');
   return (
-    <Router>
-      {ingredients.length > 0 && (
-        <div className={styles.app}>
-          <AppHeader />
+    ingredients.length > 0 && (
+      <div className={styles.app}>
+        <AppHeader />
 
-          {isLoading ? <Loader /> : <MainContent />}
-          {/* {isModalOpen && (
-            <Modal>
-              <ModalComponent />
-            </Modal>
-          )} */}
-        </div>
-      )}
-    </Router>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <main className={styles.main}>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </DndProvider>
+          </main>
+        )}
+        {isModalOpen && (
+          <Modal>
+            <ModalComponent />
+          </Modal>
+        )}
+      </div>
+    )
   );
 }
 

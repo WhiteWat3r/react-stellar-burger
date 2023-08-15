@@ -14,11 +14,17 @@ import { closeModal } from '../../services/actions/modal';
 
 const modalRoot = document.querySelector('#react-modal');
 
-function Modal({ handleCloseModal, children }) {
+function Modal({ children }) {
+  const dispatch = useDispatch();
+
+  const onClose = () => {
+    dispatch(closeModal());
+  };
+
   useEffect(() => {
     const closeOnEsc = (evt) => {
       if (evt.code === 'Escape') {
-        handleCloseModal();
+        dispatch(closeModal());
       }
     };
 
@@ -31,18 +37,18 @@ function Modal({ handleCloseModal, children }) {
     <>
       <div className={modalStyles.modal}>
         <div className={modalStyles.closeButton}>
-          <CloseIcon type="primary" onClick={handleCloseModal} />
+          <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}
       </div>
-      <ModalOverlay closeModal={handleCloseModal} />
+      <ModalOverlay closeModal={onClose} />
     </>,
     modalRoot,
   );
 }
 
 Modal.propTypes = {
-  handleCloseModal: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 export default Modal;

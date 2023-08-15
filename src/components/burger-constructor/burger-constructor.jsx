@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -18,14 +19,11 @@ import {
 
 import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
 import { sendOrder } from '../../utils/api';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-const navigate = useNavigate()
+
   const [isConstructorEmpty, setISConstaructorEmpty] = useState(true);
-  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
-  const location = useLocation()
 
   const constructorIngredients = useSelector((store) => store.ingredient.constructorItems);
 
@@ -74,16 +72,7 @@ const navigate = useNavigate()
       ingredients: constructorIngredients.map((item) => item._id),
     };
 
-
-    if (isAuthenticated) {
-      dispatch(sendOrder(order));
-    } else {
-
-
-    localStorage.setItem('redirectPath', location.pathname);
-    // return <Navigate to="/login" replace /> 
-    navigate('/login', {replace: true})
-  }
+    dispatch(sendOrder(order));
   };
 
   const moveIngredient = (dragIndex, hoverIndex) => {
