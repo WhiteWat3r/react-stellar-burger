@@ -3,30 +3,30 @@ import React, { useState, useRef } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import style from './registerPage.module.css';
-import { Input, Typography, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register } from '../../utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/loader/loader';
+import { RootState } from '../../services/reducers';
 
 function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const authProcess = useSelector((store) => store.auth.authProcess);
+  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
 
-  const error = useSelector((store) => store.auth.error);
+  const error = useSelector((store: RootState) => store.auth.error);
 
   const navigate = useNavigate();
   const inputRef = useRef(null);
   const dispatch = useDispatch();
 
   const handleSubmitForm = async () => {
-    const response = await dispatch(register(email, password, name));
+    const error = await dispatch(register(email, password, name));
 
-    if (!response.error) {
-      navigate('/login');
-    }
+    console.log(error);
+    !error && navigate('/login');
   };
 
   return (
@@ -86,7 +86,7 @@ function RegisterPage() {
             </div>
 
             <div className="mb-20">
-              <Button type="primary" size="large"  htmlType="submit">
+              <Button type="primary" size="large" htmlType="submit">
                 Зарегистрироваться
               </Button>
             </div>

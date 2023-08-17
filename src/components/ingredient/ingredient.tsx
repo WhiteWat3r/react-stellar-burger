@@ -1,18 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {FC} from 'react';
 
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ingredientStyles from './ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/ingredient';
-import { openModal } from '../../services/actions/modal';
 import { useDrag } from 'react-dnd';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { TIngredient } from '../../services/types';
 
-function Ingredient({ ingr }) {
+
+type TIngredientProps = {
+  ingr: TIngredient
+}
+
+
+const Ingredient: FC<TIngredientProps> = ({ ingr }) =>{
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,24 +23,18 @@ function Ingredient({ ingr }) {
   const onClick = () => {
     dispatch(setCurrentIngredient(ingr));
 
-    // console.log(location);
-
     navigate(`/ingredients/${ingr._id}`, {
       state: { background: location },
     });
-
-    // dispatch(openModal('IngredientDetails'));
   };
 
-  const [{ isDrag }, drafRef] = useDrag({
+  const [, drafRef] = useDrag({
     type: 'ingredient',
     item: ingr,
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
   });
-
-  // const className = `${isDrag ? ingredientStyles.onDraggin : ingredientStyles.list}`
 
   return (
     <li onClick={onClick} className={`${ingredientStyles.list} mt-6 mb-10 ml-4 mr-1`} ref={drafRef}>
@@ -55,8 +52,5 @@ function Ingredient({ ingr }) {
   );
 }
 
-Ingredient.propTypes = {
-  ingr: PropTypes.object,
-};
 
 export default Ingredient;

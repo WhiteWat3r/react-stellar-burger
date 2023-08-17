@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './mainContent.module.css';
-import { Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from '../../pages/homePage/HomePage';
 import RegisterPage from '../../pages/registerPage/registerPage';
 import ForgotPasswordPage from '../../pages/forgotPasswordPage/forgotPasswordPage';
 import ResetPasswordPage from '../../pages/resetPassword/resetPasswordPage';
 import ProfilePage from '../../pages/profilePage/profilePage';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import ErrorPage from '../../pages/ErrorPage/errorPage';
+import ErrorPage from '../../pages/errorPage/errorPage';
 import { ProtectedRouteElement } from '../ProtectedRoutElement/ProtectedRoutElement';
 import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,19 +15,19 @@ import { closeModal } from '../../services/actions/modal';
 import Loader from '../loader/loader';
 import OrderDetails from '../order-details/order-details';
 import LoginPage from '../../pages/loginPage/loginPage';
+import { RootState } from '../../services/reducers';
 
 function MainContent() {
   const location = useLocation();
   const background = location.state && location.state.background;
 
-  const createdOrder = useSelector((store) => store.ingredient.createdOrder);
-  const isModalOpen = useSelector((store) => store.modal.isModalOpen);
+  const createdOrder = useSelector((store: RootState) => store.ingredient.createdOrder);
+  const isModalOpen = useSelector((store: RootState) => store.modal.isModalOpen);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleCloseIngredientModal = () => {
-    // dispatch(closeModal('IngredientDetails'));
     background && navigate(-1);
   };
 

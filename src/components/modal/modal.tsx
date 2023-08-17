@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderDetails from '../order-details/order-details';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import modalStyles from './modal.module.css';
 import ModalOverlay from '../overlay/modal-overlay';
-import { useDispatch } from 'react-redux';
-import { closeModal } from '../../services/actions/modal';
 
-const modalRoot = document.querySelector('#react-modal');
+const modalRoot = document.querySelector('#react-modal') as HTMLElement;
 
-function Modal({ handleCloseModal, children }) {
+type TModal = {
+  handleCloseModal: () => void;
+  children: React.ReactNode;
+};
+
+const Modal: FC<TModal> = ({ handleCloseModal, children }) => {
   useEffect(() => {
-    const closeOnEsc = (evt) => {
+    const closeOnEsc = (evt: KeyboardEvent) => {
       if (evt.code === 'Escape') {
         handleCloseModal();
       }
@@ -39,10 +38,6 @@ function Modal({ handleCloseModal, children }) {
     </>,
     modalRoot,
   );
-}
-
-Modal.propTypes = {
-  handleCloseModal: PropTypes.func,
 };
 
 export default Modal;

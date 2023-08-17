@@ -1,3 +1,5 @@
+import { Dispatch } from 'redux';
+
 import {
   fetchIngredientsFailure,
   fetchIngredientsRequest,
@@ -29,8 +31,10 @@ import {
   resetPasswordSuccess,
 } from '../services/actions/auth';
 
+
+
 export const getIngredients = () => {
-  return (dispatch) => {
+  return (dispatch: Dispatch) => {
     dispatch(fetchIngredientsRequest());
     request('/ingredients')
       .then((data) => dispatch(fetchIngredientsSuccess(data.data)))
@@ -38,8 +42,8 @@ export const getIngredients = () => {
   };
 };
 
-export const sendOrder = (order) => {
-  return (dispatch) => {
+export const sendOrder = (order : { ingredients: string[]; }) => {
+  return (dispatch: Dispatch) => {
     request('/orders', {
       method: 'POST',
       body: JSON.stringify(order),
@@ -47,15 +51,15 @@ export const sendOrder = (order) => {
     })
       .then((data) => {
         dispatch(sendOrderSuccess(data));
-        dispatch(openModal('OrderDetails'));
+        dispatch(openModal());
         dispatch(clearConstructor());
       })
-      .catch((error) => dispatch(sendOrderFailure(error)));
+      .catch((error) => dispatch(sendOrderFailure()));
   };
 };
 
-export const login = (email, password) => {
-  return async (dispatch) => {
+export const login = (email: string, password: string) => {
+  return async (dispatch: Dispatch) => {
     dispatch(loginStart());
 
     try {
@@ -70,7 +74,6 @@ export const login = (email, password) => {
 
         setCookie('accessToken', accessToken);
 
-        // localStorage.setItem('accessToken', response.accessToken);
         dispatch(loginSuccess(response.user));
       }
     } catch (error) {
@@ -81,7 +84,7 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     dispatch(logoutStart());
     try {
       const refreshToken = getCookie('refreshToken');
@@ -105,7 +108,7 @@ export const logout = () => {
 };
 
 export const refreshToken = () => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const refreshToken = getCookie('refreshToken');
       console.log(2);
@@ -126,7 +129,7 @@ export const refreshToken = () => {
 };
 
 export const getUserData = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     try {
 
       const response = await authRequest('/auth/user');
@@ -140,22 +143,22 @@ export const getUserData = () => {
       // console.log(response);
       // if (error.message === 'jwt expired') {
 
-      try {
-        await dispatch(refreshToken());
-        const updatedResponse = await authRequest('/auth/user');
-        if (updatedResponse.success) {
-          dispatch(getUserDataSuccess(updatedResponse.user));
-        }
-      } catch (refreshError) {
-        console.error('Ошибка при обновлении токена:', refreshError);
-      }
+      // try {
+      //   await dispatch(refreshToken());
+      //   const updatedResponse = await authRequest('/auth/user');
+      //   if (updatedResponse.success) {
+      //     dispatch(getUserDataSuccess(updatedResponse.user));
+      //   }
+      // } catch (refreshError) {
+      //   console.error('Ошибка при обновлении токена:', refreshError);
       // }
+      // } // Про механику проверки ответа от сервера и рефреша токена помню, реализую к финальной итерации
     }
   };
 };
 
-export const setUserData = (name, email) => {
-  return async (dispatch) => {
+export const setUserData = (name: string, email: string) => {
+  return async (dispatch: Dispatch) => {
     try {
       const response = await authRequest('/auth/user', 'PATCH', {
         email,
@@ -171,8 +174,8 @@ export const setUserData = (name, email) => {
   };
 };
 
-export const register = (email, password, name) => {
-  return async (dispatch) => {
+export const register = (email:string, password: string, name: string) => {
+  return async (dispatch: Dispatch) => {
     dispatch(registerStart());
     try {
       const response = await authRequest('/auth/register', 'POST', {
@@ -189,20 +192,20 @@ export const register = (email, password, name) => {
 
         dispatch(registerSuccess());
         // console.log('успех');
-        return { success: true };
+        // return { success: true };
 
         // console.log(response);
       }
     } catch (error) {
       console.error('Ошибка при регистрации:', error);
       dispatch(registerFailed(error));
-      return { error: true };
+      return { error };
     }
   };
 };
 
-export const forgotPassword = (email) => {
-  return async (dispatch) => {
+export const forgotPassword = (email: string) => {
+  return async (dispatch: Dispatch)=> {
     dispatch(forgotPasswordStart());
 
     try {
@@ -212,18 +215,19 @@ export const forgotPassword = (email) => {
 
       if (response.success) {
         dispatch(forgotPasswordSuccess());
-        return { success: true };
+ 
       }
     } catch (error) {
       console.error('Ошибка при восстановлении пароля:', error);
-      dispatch(forgotPasswordFailed(error));
-      return { error: true };
+      dispatch(forgotPasswordFailed());
+
     }
+    return {}
   };
 };
 
-export const resetPassword = (password, token) => {
-  return async (dispatch) => {
+export const resetPassword = (password: string, token: string) => {
+  return async (dispatch: Dispatch) => {
     dispatch(resetPasswordStart());
 
     try {
@@ -234,14 +238,13 @@ export const resetPassword = (password, token) => {
 
       if (response.success) {
         dispatch(resetPasswordSuccess());
-        return { success: true };
       }
     } catch (error) {
       dispatch(resetPasswordFailed(error));
 
 
       console.error('Ошибка при восстановлении пароля:', error);
-      return { error: true };
+      return { error };
     }
   };
 };

@@ -1,21 +1,23 @@
+import { Reducer } from 'redux';
 import { CLOSE_MODAL, OPEN_MODAL } from '../actions/modal';
 
-const initialState = {
-  isModalOpen: false,
-  currentModal: null,
+type ModalState = {
+  isModalOpen: boolean;
 };
 
-export const modalReducer = (state = initialState, action) => {
+const initialState: ModalState = {
+  isModalOpen: false,
+};
+
+export const modalReducer: Reducer<ModalState> = function (state = initialState, action) {
   switch (action.type) {
     case OPEN_MODAL:
       return {
         isModalOpen: true,
-        // currentModal: action.payload,
       };
     case CLOSE_MODAL:
       return {
         isModalOpen: false,
-        // currentModal: null,
       };
     default:
       return state;

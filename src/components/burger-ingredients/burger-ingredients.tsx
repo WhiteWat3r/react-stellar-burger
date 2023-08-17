@@ -1,69 +1,80 @@
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import Ingredient from '../ingredient/ingredient';
 
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ingredientsStyles from './burger-ingredients.module.css';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../services/reducers';
 
 function BurgerIngredients() {
-  const ingredients = useSelector((store) => store.ingredient.items);
+  const ingredients = useSelector((store: RootState) => store.ingredient.items);
   const [activeTab, setActiveTab] = useState('bun');
 
-  const scrollDivRef = useRef(null);
+  const scrollDivRef = useRef<HTMLDivElement | null>(null);
 
-  // определние отступа для элемента
-  const getOffsetTop = (element) => {
+  const getOffsetTop = (element: HTMLDivElement | null | undefined) => {
     let offsetTop = 0;
     if (element) {
-      offsetTop += element.offsetTop - 284; // По какой-то причине отсчет идет не от scrollDiv, а от родительского BurgerConstructor. Поэтому пришлось вычитать разницу
-      // console.log(offsetTop);
-      element = element.offsetParent;
+      const parent = element.offsetParent as HTMLDivElement | null;
+      offsetTop += parent ? element.offsetTop - parent.offsetTop : element.offsetTop;
     }
     return offsetTop;
   };
 
-  const bunTab = useRef();
-  const sauceTab = useRef();
-  const mainTab = useRef();
-
+  const bunTab = useRef<HTMLDivElement>(null);
+  const sauceTab = useRef<HTMLDivElement>(null);
+  const mainTab = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
     const scrollDiv = scrollDivRef.current;
-    const scrollPosition = scrollDiv.scrollTop;
 
-    // верхние отступы для блоков
-    const sauceTabTop = getOffsetTop(sauceTab.current);
-    const mainTabTop = getOffsetTop(mainTab.current);
+    if (scrollDiv) {
+      const scrollPosition = scrollDiv.scrollTop;
 
-    // определение таба
-    if (scrollPosition >= mainTabTop) {
-      setActiveTab('main');
-    } else if (scrollPosition >= sauceTabTop) {
-      setActiveTab('sauce');
-    } else {
-      setActiveTab('bun');
+      // верхние отступы для блоков
+      const sauceTabTop = getOffsetTop(sauceTab.current);
+      const mainTabTop = getOffsetTop(mainTab.current);
+
+      // определение таба
+      if (scrollPosition >= mainTabTop) {
+        setActiveTab('main');
+      } else if (scrollPosition >= sauceTabTop) {
+        setActiveTab('sauce');
+      } else {
+        setActiveTab('bun');
+      }
     }
   };
 
-  const handleTabClick = (tabValue) => {
+  const handleTabClick = (tabValue: string) => {
     if (tabValue === 'bun') {
-      bunTab.current.scrollIntoView({ behavior: 'smooth' });
+      if (bunTab.current) {
+        bunTab.current.scrollIntoView({ behavior: 'smooth' });
+      }
     } else if (tabValue === 'sauce') {
-      sauceTab.current.scrollIntoView({ behavior: 'smooth' });
+      if (sauceTab.current) {
+        sauceTab.current.scrollIntoView({ behavior: 'smooth' });
+      }
     } else if (tabValue === 'main') {
-      mainTab.current.scrollIntoView({ behavior: 'smooth' });
+      if (mainTab.current) {
+        mainTab.current.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   useEffect(() => {
     const scrollDiv = scrollDivRef.current;
-    scrollDiv.addEventListener('scroll', handleScroll);
+
+    if (scrollDiv) {
+      scrollDiv.addEventListener('scroll', handleScroll);
+    }
+
     return () => {
-      scrollDiv.removeEventListener('scroll', handleScroll);
+      if (scrollDiv) {
+        scrollDiv.removeEventListener('scroll', handleScroll);
+      }
     };
   }, []);
 

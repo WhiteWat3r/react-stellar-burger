@@ -1,26 +1,31 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, FormEvent} from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import style from './loginPage.module.css';
-import { Input, Typography, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../utils/api';
 import Loader from '../../components/loader/loader';
+import { RootState } from '../../services/reducers';
+
+type InputType = "email" | "password" | "text";
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [typeInput, setrTypeInput] = useState('password');
+  const [typeInput, setrTypeInput] = useState<InputType>('password');
   const navigate = useNavigate();
 
-  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
-  const authProcess = useSelector((store) => store.auth.authProcess);
+  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
 
-  const loginError = useSelector((store) => store.auth.loginError);
+  const loginError = useSelector((store: RootState) => store.auth.loginError);
 
   const inputRef = useRef(null);
   const dispatch = useDispatch();
+
 
   const onIconClick = () => {
     if (typeInput === 'password') {
@@ -30,7 +35,7 @@ function LoginPage() {
     }
   };
 
-  const handleSubmitForm = async (e) => {
+  const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {

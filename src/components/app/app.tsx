@@ -1,35 +1,29 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Loader from '../loader/loader';
-
-
 import AppHeader from '../app-header/app-header';
-
 import styles from './app.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients } from '../../utils/api';
 
+import { getIngredients } from '../../utils/api';
 import { getCookie } from '../../utils/cookie';
 import { getUserData } from '../../utils/api';
 import MainContent from '../mainContent/mainContent';
 
+import { RootState } from '../../services/reducers/index';
+
+
 function App() {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector((store) => store.ingredient.isLoading);
-  // const isModalOpen = useSelector((store) => store.modal.isModalOpen);
-  // const currentModal = useSelector((store) => store.modal.currentModal);
-
-
-  const ingredients = useSelector((store) => store.ingredient.items);
+  const isLoading = useSelector((store: RootState) => store.ingredient.isLoading);
+  const ingredients = useSelector((store: RootState) => store.ingredient.items);
 
   const accessToken = getCookie('accessToken');
 
   useEffect(() => {
     dispatch(getIngredients());
-
-    // console.log(accessToken);
 
     if (accessToken) {
       console.log('start');
@@ -37,7 +31,6 @@ function App() {
     }
   }, [dispatch]);
 
-  // console.log('REFRESH');
   return (
     <Router>
       {ingredients.length > 0 && (
@@ -45,11 +38,6 @@ function App() {
           <AppHeader />
 
           {isLoading ? <Loader /> : <MainContent />}
-          {/* {isModalOpen && (
-            <Modal>
-              <ModalComponent />
-            </Modal>
-          )} */}
         </div>
       )}
     </Router>

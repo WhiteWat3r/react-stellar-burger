@@ -1,10 +1,18 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
-import React, { useRef } from 'react';
+import React, { useRef, FC } from 'react';
 import constructorIngredientStyles from './constructor-ingredient.module.css';
-import PropTypes from 'prop-types';
+import { TIngredient } from '../../services/types';
 
-function ConstructorIngredient({ ingr, onDelete, index, moveIngredient }) {
+
+type TConstructorIngredientProps = {
+  ingr: TIngredient;
+  onDelete: (ingr:TIngredient) => void;
+  index: number;
+  moveIngredient: (dragIndex: number, hoverIndex: number) => void
+}
+
+const ConstructorIngredient: FC<TConstructorIngredientProps> = ({ ingr, onDelete, index, moveIngredient }) => {
   const [, drag] = useDrag({
     type: 'constructor-ingredient',
     item: { index },
@@ -12,7 +20,7 @@ function ConstructorIngredient({ ingr, onDelete, index, moveIngredient }) {
 
   const [, drop] = useDrop({
     accept: 'constructor-ingredient',
-    hover(item) {
+    hover(item: {index: number}) {
       if (!ref.current) {
         return;
       }
@@ -44,11 +52,5 @@ function ConstructorIngredient({ ingr, onDelete, index, moveIngredient }) {
   );
 }
 
-ConstructorIngredient.propTypes = {
-  ingr: PropTypes.object,
-  onDelete: PropTypes.func,
-  index: PropTypes.number,
-  moveIngredient: PropTypes.func,
-};
 
 export default ConstructorIngredient;

@@ -1,19 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import style from './resetPasswordPage.module.css';
-import { Input, Typography, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../utils/api';
 import Loader from '../../components/loader/loader';
+import { RootState } from '../../services/reducers';
 
 function ResetPasswordPage() {
-  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
+  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
   const navigate = useNavigate();
 
   const location = useLocation();
-  // console.log(location.state);
-  // console.log(location.state.email);
 
   const emailFromState = location.state && location.state.email ? location.state.email : '';
 
@@ -23,8 +22,8 @@ function ResetPasswordPage() {
     }
   }, [navigate, emailFromState]);
 
-  const authProcess = useSelector((store) => store.auth.authProcess);
-  const error = useSelector((store) => store.auth.resetPasswordError);
+  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
+  const error = useSelector((store: RootState) => store.auth.resetPasswordError);
 
   const dispatch = useDispatch();
 
@@ -34,10 +33,9 @@ function ResetPasswordPage() {
   const inputRef = useRef(null);
 
   const handleSubmitForm = async () => {
-    const response = await dispatch(resetPassword(password, recoverytoken));
-    if (!response.error) {
-      navigate('/login');
-    }
+    const error = await dispatch(resetPassword(password, recoverytoken));
+    console.log(error);
+    !error && navigate('/login');
   };
 
   return (
@@ -81,7 +79,7 @@ function ResetPasswordPage() {
               />
             </div>
             <div className="mb-20">
-              <Button type="primary" size="large" htmlType="submit"> 
+              <Button type="primary" size="large" htmlType="submit">
                 Восстановить
               </Button>
             </div>

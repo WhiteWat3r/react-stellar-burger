@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import PropTypes from 'prop-types';
 
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import IngredientDetailsStyles from './ingredient-details.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { RootState } from '../../services/reducers';
 
-function IngredientDetails({ isPage }) {
-  // const ingr = useSelector((store) => store.ingredient.currentIngredient);
-  // console.log(ingr);
+
+
+type TIngredientDetails = {
+  isPage?: boolean
+}
+
+
+
+const IngredientDetails:FC<TIngredientDetails> = ({ isPage }) => {
+
 
   const { id } = useParams();
 
-  const ingredients = useSelector((state) => state.ingredient.items);
+  const ingredients = useSelector((state: RootState) => state.ingredient.items);
   const ingr = ingredients.find((ingredient) => ingredient._id === id);
 
   console.log(ingr);
@@ -58,9 +65,5 @@ function IngredientDetails({ isPage }) {
 }
 
 
-
-IngredientDetails.propTypes = {
-  isPage: PropTypes.bool,
-};
 
 export default IngredientDetails;

@@ -1,3 +1,6 @@
+import { Reducer } from 'redux';
+import { TIngredient, TCreatedOrder} from '../types';
+
 import {
   ADD_CONSTRUCTOR_INGREDIENT,
   CLEAR_CONSTRUCTOR,
@@ -14,18 +17,35 @@ import {
   SEND_ORDER_FAILURE,
 } from '../actions/ingredient';
 
-const initialState = {
+
+
+type IngredientState  = {
+  items: TIngredient[];
+  isLoading: boolean;
+  error: null | string;
+  currentIngredient: TIngredient | null;
+  createdOrder: TCreatedOrder | null;
+  orderNumber: string | null;
+  orderStatus: boolean;
+  constructorItems: TIngredient[];
+};
+
+
+
+
+
+const initialState:IngredientState = {
   items: [],
   isLoading: false,
   error: null,
   currentIngredient: null,
-  createdOrder: [],
+  createdOrder: null,  
   orderNumber: null,
   orderStatus: false,
   constructorItems: [],
 };
 
-export const ingredientReducer = (state = initialState, action) => {
+export const ingredientReducer: Reducer<IngredientState> = function(state = initialState, action) {
   switch (action.type) {
     case FETCH_INGREDIENTS_REQUEST:
       return {
@@ -105,10 +125,9 @@ export const ingredientReducer = (state = initialState, action) => {
       };
 
     case SEND_ORDER_SUCCESS:
-      console.log('order');
       return {
         ...state,
-        createdOrder: action.payload, //
+        createdOrder: action.payload, 
         orderNumber: action.payload.order.number,
         orderStatus: true,
       };

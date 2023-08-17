@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
 import style from './profilePage.module.css';
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { logout } from '../../utils/api';
 import Loader from '../../components/loader/loader';
-import ProfileOverview from '../profileOverview/profileOverview';
+import ProfileOverview from '../profileOverview/profileOverview/profileOverniew';
 import ProfileOrdersPage from '../profileOrdersPage/profileOrdersPage';
+import { RootState } from '../../services/reducers';
 
 function ProfilePage() {
-  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
+  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
 
   const dispatch = useDispatch();
   const redirectPath = localStorage.getItem('redirectPath');
 
   const navigate = useNavigate();
 
-  const authProcess = useSelector((store) => store.auth.authProcess);
+  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
 
   // if (!user) {
   //   return (
@@ -39,7 +39,7 @@ function ProfilePage() {
     }
   }, [isAuthenticated, redirectPath]);
 
-  const setNavClass = ({ isActive }) => {
+  const setNavClass = ({ isActive }: { isActive: boolean }) => {
     return isActive
       ? `${style.link} text text_type_main-medium ${style.active}`
       : `${style.link} text text_type_main-medium text_color_inactive ${style.inactive}`;

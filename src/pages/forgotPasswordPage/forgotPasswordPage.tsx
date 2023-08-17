@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, Navigate, useHistory, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect, FormEvent} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import style from './forgotPasswordPage.module.css';
-import { Input, Typography, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotPassword } from '../../utils/api';
 import Loader from '../../components/loader/loader';
-// import { sendEmail } from '../utils/api';
+import { RootState } from '../../services/reducers';
 
 function ForgotPasswordPage() {
-  const authProcess = useSelector((store) => store.auth.authProcess);
+  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -17,13 +17,12 @@ function ForgotPasswordPage() {
 
   const dispatch = useDispatch();
 
-  const handleSubmitForm = async (e) => {
+  const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await dispatch(forgotPassword(email));
-    if (!response.error) {
-      navigate('/reset-password', { state: { email } });
-    }
+    dispatch(forgotPassword(email));
+    navigate('/reset-password', { state: { email } });
+
   };
 
   return (

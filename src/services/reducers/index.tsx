@@ -8,3 +8,5 @@ export const rootReducer = combineReducers({
   modal: modalReducer,
   auth: authReducer
 });
+
+export type RootState = ReturnType<typeof rootReducer>;

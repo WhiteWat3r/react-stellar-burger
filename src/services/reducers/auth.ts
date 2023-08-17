@@ -1,3 +1,6 @@
+import { Reducer } from 'redux';
+import { TUser } from '../types';
+
 import {
   GET_USER_DATA,
   LOGIN_SUCCESS,
@@ -17,7 +20,17 @@ import {
   CLEAR_EROR_FIELDS,
 } from '../actions/auth';
 
-const initialState = {
+type AuthState = {
+  user: TUser | null;
+  isAuthenticated: boolean;
+  authProcess: boolean;
+  error: boolean;
+  loginError: boolean;
+  forgotPasswordError: boolean;
+  resetPasswordError: boolean;
+};
+
+const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   authProcess: false,
@@ -27,7 +40,7 @@ const initialState = {
   resetPasswordError: false,
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer: Reducer<AuthState> = function (state = initialState, action) {
   switch (action.type) {
     case RESET_PASSWORD_START:
     case FORGOT_PASSWORD_START:

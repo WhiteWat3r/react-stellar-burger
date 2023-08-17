@@ -1,7 +1,14 @@
+import React, {FC} from 'react'
 import modalStyyles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 
-function ModalOverlay({ closeModal }) {
+
+type TModalOverlayProps = {
+  closeModal: () => void
+}
+
+
+const ModalOverlay:FC<TModalOverlayProps> = ({ closeModal }) => {
   const onClick = () => {
     closeModal();
   };
@@ -9,8 +16,5 @@ function ModalOverlay({ closeModal }) {
   return <div className={modalStyyles.overlay} onClick={onClick}></div>;
 }
 
-ModalOverlay.propTypes = {
-  closeModal: PropTypes.func,
-};
 
 export default ModalOverlay;

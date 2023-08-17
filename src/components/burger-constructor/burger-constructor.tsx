@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  ConstructorElement,
+  Button,
+  CurrencyIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import constructorStyles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,16 +18,20 @@ import {
 
 import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
 import { sendOrder } from '../../utils/api';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RootState } from '../../services/reducers';
+import { TIngredient } from '../../services/types';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isConstructorEmpty, setISConstaructorEmpty] = useState(true);
-  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
-  const location = useLocation()
+  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const location = useLocation();
 
-  const constructorIngredients = useSelector((store) => store.ingredient.constructorItems);
+  const constructorIngredients = useSelector(
+    (store: RootState) => store.ingredient.constructorItems,
+  );
 
   const bun = constructorIngredients.find((item) => {
     return item.type === 'bun';
@@ -42,14 +46,12 @@ const navigate = useNavigate()
     };
     setISConstaructorEmpty(isEmpty);
 
-    // console.log(isConstructorEmpty);
   }, [constructorIngredients]);
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(ingr) {
+    drop(ingr: TIngredient) {
       const bunIndex = constructorIngredients.findIndex((item) => item.type === 'bun');
-      // console.log(bun);
       if (bunIndex !== -1 && ingr.type === 'bun') {
         dispatch(replaceConstructorBun(ingr, bunIndex));
       } else {
@@ -58,7 +60,7 @@ const navigate = useNavigate()
     },
   });
 
-  const onDelete = (ingr) => {
+  const onDelete = (ingr: TIngredient) => {
     dispatch(removeConstructorIngredient(ingr));
   };
 
@@ -74,19 +76,15 @@ const navigate = useNavigate()
       ingredients: constructorIngredients.map((item) => item._id),
     };
 
-
     if (isAuthenticated) {
       dispatch(sendOrder(order));
     } else {
-
-
-    localStorage.setItem('redirectPath', location.pathname);
-    // return <Navigate to="/login" replace /> 
-    navigate('/login', {replace: true})
-  }
+      localStorage.setItem('redirectPath', location.pathname);
+      navigate('/login', { replace: true });
+    }
   };
 
-  const moveIngredient = (dragIndex, hoverIndex) => {
+  const moveIngredient = (dragIndex: number, hoverIndex: number) => {
     const draggedIngredient = constructorIngredients[dragIndex];
     const updatedIngredients = [...constructorIngredients];
     updatedIngredients.splice(dragIndex, 1);
