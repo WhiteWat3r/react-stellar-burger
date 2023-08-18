@@ -20,7 +20,7 @@ import {
   CLEAR_EROR_FIELDS,
 } from '../actions/auth';
 
-type AuthState = {
+export type AuthState = {
   user: TUser | null;
   isAuthenticated: boolean;
   authProcess: boolean;

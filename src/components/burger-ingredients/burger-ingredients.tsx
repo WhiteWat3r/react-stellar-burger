@@ -12,13 +12,13 @@ function BurgerIngredients() {
   const ingredients = useSelector((store: RootState) => store.ingredient.items);
   const [activeTab, setActiveTab] = useState('bun');
 
-  const scrollDivRef = useRef<HTMLDivElement | null>(null);
+  const scrollDivRef = useRef<HTMLDivElement>(null);
 
-  const getOffsetTop = (element: HTMLDivElement | null | undefined) => {
+  const getOffsetTop = (element: HTMLDivElement | null) => {
     let offsetTop = 0;
     if (element) {
-      const parent = element.offsetParent as HTMLDivElement | null;
-      offsetTop += parent ? element.offsetTop - parent.offsetTop : element.offsetTop;
+      const parent = element.offsetParent as HTMLDivElement;
+      offsetTop += parent ? element.offsetTop - parent.offsetTop - 284 : element.offsetTop;
     }
     return offsetTop;
   };

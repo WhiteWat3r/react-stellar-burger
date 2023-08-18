@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { CLOSE_MODAL, OPEN_MODAL } from '../actions/modal';
 
-type ModalState = {
+export type ModalState = {
   isModalOpen: boolean;
 };
 

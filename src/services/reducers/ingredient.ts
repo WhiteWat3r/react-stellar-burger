@@ -19,7 +19,7 @@ import {
 
 
 
-type IngredientState  = {
+export type IngredientState  = {
   items: TIngredient[];
   isLoading: boolean;
   error: null | string;

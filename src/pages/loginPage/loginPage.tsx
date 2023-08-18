@@ -107,7 +107,7 @@ function LoginPage() {
           </div>
           <div className={style.auth}>
             <p className="text text_type_main-default text_color_inactive mr-2">Забыли пароль? </p>
-            <Link to="/forgot-password" className={style.link + ' text text_type_main-default'}>
+            <Link to="/forgot-password?from=login" className={style.link + ' text text_type_main-default'}>
               Восстановить пароль
             </Link>
           </div>

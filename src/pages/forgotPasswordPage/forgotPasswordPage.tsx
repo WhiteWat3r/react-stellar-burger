@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, FormEvent} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect, FormEvent } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import style from './forgotPasswordPage.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,6 +12,18 @@ function ForgotPasswordPage() {
   const authProcess = useSelector((store: RootState) => store.auth.authProcess);
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const fromLoginPage = new URLSearchParams(location.search).get('from') === 'login';
+
+  console.log(fromLoginPage);
+
+  useEffect(() => {
+    if (!fromLoginPage) {
+      navigate('/');
+    }
+  }, []);
+
   const [email, setEmail] = useState('');
   const inputRef = useRef(null);
 
@@ -22,7 +34,6 @@ function ForgotPasswordPage() {
 
     dispatch(forgotPassword(email));
     navigate('/reset-password', { state: { email } });
-
   };
 
   return (
@@ -36,15 +47,15 @@ function ForgotPasswordPage() {
 
             <div className="mb-6">
               <Input
-                type='email'
-                placeholder='E-mail'
+                type="email"
+                placeholder="E-mail"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                name='name'
+                name="name"
                 error={false}
                 ref={inputRef}
                 errorText={'Ошибка'}
-                size='default'
+                size="default"
                 extraClass="ml-1"
               />
             </div>
