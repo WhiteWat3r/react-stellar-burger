@@ -1,26 +1,17 @@
-import React, { useEffect, FC } from 'react';
-import PropTypes from 'prop-types';
-
+import { FC } from 'react';
 
 import IngredientDetailsStyles from './ingredient-details.module.css';
-import {useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { RootState } from '../../services/reducers';
-
-
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 type TIngredientDetails = {
-  isPage?: boolean
-}
+  isPage?: boolean;
+};
 
-
-
-const IngredientDetails:FC<TIngredientDetails> = ({ isPage }) => {
-
-
+const IngredientDetails: FC<TIngredientDetails> = ({ isPage }) => {
   const { id } = useParams();
 
-  const ingredients = useSelector((state: RootState) => state.ingredient.items);
+  const ingredients = useAppSelector((state) => state.ingredient.items);
   const ingr = ingredients.find((ingredient) => ingredient._id === id);
 
   console.log(ingr);
@@ -62,8 +53,6 @@ const IngredientDetails:FC<TIngredientDetails> = ({ isPage }) => {
       </ul>
     </div>
   );
-}
-
-
+};
 
 export default IngredientDetails;

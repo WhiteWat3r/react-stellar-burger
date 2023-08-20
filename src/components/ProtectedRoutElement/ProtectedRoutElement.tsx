@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useLocation, RouteProps, useNavigate } from 'react-router-dom';
-import { RootState } from '../../services/reducers/index';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 interface ProtectedRouteElementProps {
   element: React.ReactNode;
@@ -12,7 +11,7 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
   element,
   onlyAuth,
 }) => {
-  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
 
   const navigate = useNavigate();
 

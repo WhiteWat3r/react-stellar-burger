@@ -3,11 +3,11 @@ import React, {FC} from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ingredientStyles from './ingredient.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TIngredient } from '../../services/types';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 
 type TIngredientProps = {
@@ -16,7 +16,7 @@ type TIngredientProps = {
 
 
 const Ingredient: FC<TIngredientProps> = ({ ingr }) =>{
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 

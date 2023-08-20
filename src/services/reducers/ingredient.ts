@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { TIngredient, TCreatedOrder} from '../types';
+import { TIngredient, TCreatedOrder } from '../types';
 
 import {
   ADD_CONSTRUCTOR_INGREDIENT,
@@ -17,9 +17,7 @@ import {
   SEND_ORDER_FAILURE,
 } from '../actions/ingredient';
 
-
-
-export type IngredientState  = {
+export type IngredientState = {
   items: TIngredient[];
   isLoading: boolean;
   error: null | string;
@@ -30,22 +28,18 @@ export type IngredientState  = {
   constructorItems: TIngredient[];
 };
 
-
-
-
-
-const initialState:IngredientState = {
+const initialState: IngredientState = {
   items: [],
   isLoading: false,
   error: null,
   currentIngredient: null,
-  createdOrder: null,  
+  createdOrder: null,
   orderNumber: null,
   orderStatus: false,
   constructorItems: [],
 };
 
-export const ingredientReducer: Reducer<IngredientState> = function(state = initialState, action) {
+export const ingredientReducer: Reducer<IngredientState> = function (state = initialState, action) {
   switch (action.type) {
     case FETCH_INGREDIENTS_REQUEST:
       return {
@@ -109,7 +103,7 @@ export const ingredientReducer: Reducer<IngredientState> = function(state = init
         }),
         items: state.items.map((item) => {
           if (item._id === action.payload._id) {
-            return { ...item, __v: (item.__v = 2) };
+            return { ...item, __v: item.__v + 2 };
           }
           if (item._id === state.constructorItems[action.index]._id) {
             return { ...item, __v: item.__v - 2 };
@@ -127,7 +121,7 @@ export const ingredientReducer: Reducer<IngredientState> = function(state = init
     case SEND_ORDER_SUCCESS:
       return {
         ...state,
-        createdOrder: action.payload, 
+        createdOrder: action.payload,
         orderNumber: action.payload.order.number,
         orderStatus: true,
       };

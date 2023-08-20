@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './errorPage.module.css';
 function ErrorPage() {
   return (

@@ -5,11 +5,11 @@ import Ingredient from '../ingredient/ingredient';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ingredientsStyles from './burger-ingredients.module.css';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../services/reducers';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 function BurgerIngredients() {
-  const ingredients = useSelector((store: RootState) => store.ingredient.items);
+  const ingredients = useAppSelector((store: RootState) => store.ingredient.items);
   const [activeTab, setActiveTab] = useState('bun');
 
   const scrollDivRef = useRef<HTMLDivElement>(null);

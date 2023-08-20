@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react';
+import { useEffect, FC, ReactNode} from 'react';
 import ReactDOM from 'react-dom';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,7 +10,7 @@ const modalRoot = document.querySelector('#react-modal') as HTMLElement;
 
 type TModal = {
   handleCloseModal: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const Modal: FC<TModal> = ({ handleCloseModal, children }) => {

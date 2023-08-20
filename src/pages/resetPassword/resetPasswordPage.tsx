@@ -3,13 +3,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import style from './resetPasswordPage.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../utils/api';
 import Loader from '../../components/loader/loader';
-import { RootState } from '../../services/reducers';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function ResetPasswordPage() {
-  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -22,10 +22,10 @@ function ResetPasswordPage() {
     }
   }, [navigate, emailFromState]);
 
-  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
-  const error = useSelector((store: RootState) => store.auth.resetPasswordError);
+  const authProcess = useAppSelector((store) => store.auth.authProcess);
+  const error = useAppSelector((store) => store.auth.resetPasswordError);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [password, setPassword] = useState('');
   const [recoverytoken, setRecoverytoken] = useState('');

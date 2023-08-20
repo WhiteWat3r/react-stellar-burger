@@ -13,7 +13,7 @@ export function getCookie(name: string) {
       d.setTime(d.getTime() + exp * 1000);
       exp = props.expires = d;
     }
-    if (exp instanceof Date) {
+    if ( exp instanceof Date) {
       if (exp && exp.toUTCString) {
         props.expires = exp.toUTCString();
       }

@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 
 import orderDetailsStyles from './order-details.module.css';
 import doneImage from '../../images/done1.png';
-import { useSelector } from 'react-redux';
 import Loader from '../loader/loader';
-import { RootState } from '../../services/reducers';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 function OrderDetails() {
-  const orderNumber = useSelector((store: RootState) => store.ingredient.orderNumber);
+  const orderNumber = useAppSelector((store) => store.ingredient.orderNumber);
 
   return (
     <div className={orderDetailsStyles.modal}>

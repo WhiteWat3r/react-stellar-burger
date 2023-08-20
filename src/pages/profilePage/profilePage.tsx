@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import style from './profilePage.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { logout } from '../../utils/api';
 import Loader from '../../components/loader/loader';
 import ProfileOverview from '../profileOverview/profileOverview/profileOverniew';
 import ProfileOrdersPage from '../profileOrdersPage/profileOrdersPage';
-import { RootState } from '../../services/reducers';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 function ProfilePage() {
-  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const redirectPath = localStorage.getItem('redirectPath');
 
   const navigate = useNavigate();
 
-  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
+  const authProcess = useAppSelector((store) => store.auth.authProcess);
 
   // if (!user) {
   //   return (

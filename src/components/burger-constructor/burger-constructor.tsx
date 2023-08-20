@@ -45,7 +45,6 @@ function BurgerConstructor() {
       return true;
     };
     setISConstaructorEmpty(isEmpty);
-
   }, [constructorIngredients]);
 
   const [, dropTarget] = useDrop({

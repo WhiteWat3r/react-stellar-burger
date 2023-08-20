@@ -1,4 +1,3 @@
-import { AnyAction, Dispatch } from 'redux';
 
 import {
   fetchIngredientsFailure,
@@ -30,11 +29,12 @@ import {
   resetPasswordStart,
   resetPasswordSuccess,
 } from '../services/actions/auth';
-import { RootState } from '../services/reducers';
-import { ThunkDispatch } from 'redux-thunk';
+import { AppDispatch, RootState } from '../services/reducers';
+import { ThunkAction } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
 export const getIngredients = () => {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(fetchIngredientsRequest());
     request('/ingredients')
       .then((data) => dispatch(fetchIngredientsSuccess(data.data)))
@@ -42,8 +42,8 @@ export const getIngredients = () => {
   };
 };
 
-export const sendOrder = (order: { ingredients: string[] }) => {
-  return (dispatch: Dispatch) => {
+export const sendOrder = (order: { ingredients: string[] }):ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
     request('/orders', {
       method: 'POST',
       body: JSON.stringify(order),
@@ -58,8 +58,8 @@ export const sendOrder = (order: { ingredients: string[] }) => {
   };
 };
 
-export const login = (email: string, password: string) => {
-  return async (dispatch: Dispatch) => {
+export const login = (email: string, password: string):ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     dispatch(loginStart());
 
     try {
@@ -83,8 +83,8 @@ export const login = (email: string, password: string) => {
   };
 };
 
-export const logout = () => {
-  return async (dispatch: Dispatch) => {
+export const logout = ():ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     dispatch(logoutStart());
     try {
       const refreshToken = getCookie('refreshToken');
@@ -105,7 +105,7 @@ export const logout = () => {
   };
 };
 
-export const refreshToken = () => {
+export const refreshToken = ():ThunkAction<void, RootState, unknown, AnyAction> => {
   return async () => {
     try {
       const refreshToken = getCookie('refreshToken');
@@ -125,8 +125,8 @@ export const refreshToken = () => {
   };
 };
 
-export const getUserData = () => {
-  return async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>) => {
+export const getUserData = ():ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     try {
       const response = await authRequest('/auth/user');
 
@@ -153,8 +153,8 @@ export const getUserData = () => {
   };
 };
 
-export const setUserData = (name: string, email: string) => {
-  return async (dispatch: Dispatch) => {
+export const setUserData = (name: string, email: string):ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     try {
       const response = await authRequest('/auth/user', 'PATCH', {
         email,
@@ -170,8 +170,8 @@ export const setUserData = (name: string, email: string) => {
   };
 };
 
-export const register = (email: string, password: string, name: string) => {
-  return async (dispatch: Dispatch) => {
+export const register = (email: string, password: string, name: string):ThunkAction<any, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     dispatch(registerStart());
     try {
       const response = await authRequest('/auth/register', 'POST', {
@@ -191,8 +191,8 @@ export const register = (email: string, password: string, name: string) => {
   };
 };
 
-export const forgotPassword = (email: string) => {
-  return async (dispatch: Dispatch) => {
+export const forgotPassword = (email: string):ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     dispatch(forgotPasswordStart());
 
     try {
@@ -211,8 +211,8 @@ export const forgotPassword = (email: string) => {
   };
 };
 
-export const resetPassword = (password: string, token: string) => {
-  return async (dispatch: Dispatch) => {
+export const resetPassword = (password: string, token: string):ThunkAction<any, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
     dispatch(resetPasswordStart());
 
     try {

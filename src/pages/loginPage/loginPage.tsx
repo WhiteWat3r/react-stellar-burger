@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef, FormEvent} from 'react';
+import React, { useEffect, useState, useRef, FormEvent } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import style from './loginPage.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../utils/api';
 import Loader from '../../components/loader/loader';
-import { RootState } from '../../services/reducers';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-type InputType = "email" | "password" | "text";
-
+type InputType = 'email' | 'password' | 'text';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,14 +17,13 @@ function LoginPage() {
   const [typeInput, setrTypeInput] = useState<InputType>('password');
   const navigate = useNavigate();
 
-  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
-  const authProcess = useSelector((store: RootState) => store.auth.authProcess);
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
+  const authProcess = useAppSelector((store) => store.auth.authProcess);
 
-  const loginError = useSelector((store: RootState) => store.auth.loginError);
+  const loginError = useAppSelector((store) => store.auth.loginError);
 
   const inputRef = useRef(null);
-  const dispatch = useDispatch();
-
+  const dispatch = useAppDispatch();
 
   const onIconClick = () => {
     if (typeInput === 'password') {
@@ -58,19 +56,19 @@ function LoginPage() {
       ) : (
         <>
           <form onSubmit={handleSubmitForm}>
-          <h1 className={'text text_type_main-medium mb-6'}>Вход</h1>
+            <h1 className={'text text_type_main-medium mb-6'}>Вход</h1>
 
             <div className="mb-6">
               <Input
-                type='email'
-                placeholder='E-mail'
+                type="email"
+                placeholder="E-mail"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                name='name'
+                name="name"
                 error={false}
                 ref={inputRef}
-                errorText='Ошибка'
-                size='default'
+                errorText="Ошибка"
+                size="default"
                 extraClass="ml-1"
               />
             </div>
@@ -78,21 +76,21 @@ function LoginPage() {
             <div className="mb-6">
               <Input
                 type={typeInput}
-                placeholder='Пароль'
+                placeholder="Пароль"
                 onChange={(e) => setPassword(e.target.value)}
-                icon='ShowIcon'
+                icon="ShowIcon"
                 value={password}
-                name='name'
+                name="name"
                 error={loginError ? true : false}
                 ref={inputRef}
                 onIconClick={onIconClick}
-                errorText='Ошибка авторизации'
-                size='default'
+                errorText="Ошибка авторизации"
+                size="default"
                 extraClass="ml-1"
               />
             </div>
             <div className="mb-20">
-              <Button htmlType='submit' type="primary" size="large">
+              <Button htmlType="submit" type="primary" size="large">
                 Войти
               </Button>
             </div>
@@ -107,7 +105,9 @@ function LoginPage() {
           </div>
           <div className={style.auth}>
             <p className="text text_type_main-default text_color_inactive mr-2">Забыли пароль? </p>
-            <Link to="/forgot-password?from=login" className={style.link + ' text text_type_main-default'}>
+            <Link
+              to="/forgot-password?from=login"
+              className={style.link + ' text text_type_main-default'}>
               Восстановить пароль
             </Link>
           </div>

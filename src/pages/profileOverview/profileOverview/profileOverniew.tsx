@@ -1,17 +1,17 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import style from './profileOverview.module.css';
 import { setUserData } from '../../../utils/api';
-import { RootState } from '../../../services/reducers';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
 
 function ProfileOverview() {
-  const user = useSelector((store: RootState) => store.auth.user);
+  const user = useAppSelector((store) => store.auth.user);
 
   const [disabledButton, setDisabledButton] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // if (!user) {
   //   return null;
