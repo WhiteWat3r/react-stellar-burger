@@ -3,6 +3,7 @@
     justify-content: center;
     /* margin-left: auto;
       margin-right: auto; */
+
   }
   
   .tab {
@@ -34,4 +35,9 @@
   .buttons {
     display: flex;
     justify-content: flex-end;
+  }
+
+  .containner {
+    margin-top: 180px;
+
   }

@@ -1,0 +1,56 @@
+.section {
+  max-width: 1240px;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+}
+
+.ordersBlock {
+  /* max-width: 620px; */
+  width: 100%;
+  padding: 0;
+  /* margin: 0; */
+  margin-top: 0;
+  margin-bottom: 0;
+  max-height: 748px;
+  overflow-y: scroll;
+}
+
+.item {
+  color: rgba(0, 204, 204, 1);
+  list-style: none;
+}
+
+.orderFinish {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 170px;
+  flex-wrap: wrap;
+}
+
+.ordersNumbers {
+  /* max-height: 152px; */
+  max-width: 626px;
+  width: 100%;
+}
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    max-width: 272px;
+    width: 100%;
+}
+
+.countOrders {
+    text-shadow:
+    rgba(51, 51, 225, 0.5) 0px 0px 15px,
+    rgba(51, 51, 225, 0.25) 0px 0px 15px,
+    rgba(51, 51, 225, 0.25) 0px 0px 15px
+}

@@ -74,6 +74,7 @@ function BurgerConstructor() {
     const order = {
       ingredients: constructorIngredients.map((item) => item._id),
     };
+    
 
     if (isAuthenticated) {
       dispatch(sendOrder(order));

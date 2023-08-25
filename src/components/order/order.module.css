@@ -1,0 +1,113 @@
+.order {
+  max-width: 844px;
+  /* width: 100%; */
+  background-color: #1c1c21;
+  /* min-height: 214px; */
+  list-style: none;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.imageContainer {
+  padding: 0;
+  display: flex;
+  position: relative;
+  height: 64px;
+}
+
+.item {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* left: 50px; */
+  border-radius: 50%;
+  border: 3px solid rgb(122, 25, 169);
+  background-color: rgba(19, 19, 22, 1);
+  z-index: 8;
+}
+
+
+.imageContainer li:nth-child(2) {
+    z-index: 7;
+    left: 48px
+}
+
+.imageContainer li:nth-child(3) {
+    z-index: 6;
+    left: 96px
+}
+
+.imageContainer li:nth-child(4) {
+    z-index: 5;
+    left: 144px
+}
+
+.imageContainer li:nth-child(5) {
+    z-index: 4;
+    left: 192px
+}
+.imageContainer li:nth-child(6) {
+    z-index: 3;
+    left: 240px
+}
+
+
+
+.ingredientImg {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+
+
+
+.orderData {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cost {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.countIngredients {
+  position: absolute;
+  transform-origin: center;
+  top: 25%;
+  left: 20%;
+  z-index: 5;
+
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(28, 28, 33, 0.7);
+  z-index: 4;
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+}
+
+.blue {
+  color: rgba(0, 204, 204, 1);
+}
+
+.default {
+ color: rgba(242, 242, 243, 1)
+}

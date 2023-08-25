@@ -1,8 +1,9 @@
-
 import {
+  clearCreatedOrder,
   fetchIngredientsFailure,
   fetchIngredientsRequest,
   fetchIngredientsSuccess,
+  // getOrderInfoSuccess,
   sendOrderFailure,
   sendOrderSuccess,
 } from '../services/actions/ingredient';
@@ -37,28 +38,34 @@ export const getIngredients = () => {
   return (dispatch: AppDispatch) => {
     dispatch(fetchIngredientsRequest());
     request('/ingredients')
-      .then((data) => dispatch(fetchIngredientsSuccess(data.data)))
+      .then((data) => {
+        dispatch(fetchIngredientsSuccess(data.data));
+      })
       .catch((error) => dispatch(fetchIngredientsFailure(error)));
   };
 };
 
-export const sendOrder = (order: { ingredients: string[] }):ThunkAction<void, RootState, unknown, AnyAction> => {
+export const sendOrder = (order: {
+  ingredients: string[];
+}): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    request('/orders', {
-      method: 'POST',
-      body: JSON.stringify(order),
-      headers: config.headers,
-    })
+    const ingredients = order.ingredients;
+    dispatch(clearCreatedOrder());
+    dispatch(openModal());
+
+    authRequest('/orders', 'POST', { ingredients })
       .then((data) => {
         dispatch(sendOrderSuccess(data));
-        dispatch(openModal());
         dispatch(clearConstructor());
       })
       .catch((error) => dispatch(sendOrderFailure()));
   };
 };
 
-export const login = (email: string, password: string):ThunkAction<void, RootState, unknown, AnyAction> => {
+export const login = (
+  email: string,
+  password: string,
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(loginStart());
 
@@ -83,7 +90,7 @@ export const login = (email: string, password: string):ThunkAction<void, RootSta
   };
 };
 
-export const logout = ():ThunkAction<void, RootState, unknown, AnyAction> => {
+export const logout = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(logoutStart());
     try {
@@ -105,7 +112,7 @@ export const logout = ():ThunkAction<void, RootState, unknown, AnyAction> => {
   };
 };
 
-export const refreshToken = ():ThunkAction<void, RootState, unknown, AnyAction> => {
+export const refreshToken = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async () => {
     try {
       const refreshToken = getCookie('refreshToken');
@@ -125,7 +132,7 @@ export const refreshToken = ():ThunkAction<void, RootState, unknown, AnyAction> 
   };
 };
 
-export const getUserData = ():ThunkAction<void, RootState, unknown, AnyAction> => {
+export const getUserData = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
       const response = await authRequest('/auth/user');
@@ -133,27 +140,26 @@ export const getUserData = ():ThunkAction<void, RootState, unknown, AnyAction> =
       if (response.success) {
         dispatch(getUserDataSuccess(response.user));
       }
-
-        
     } catch (error) {
-      console.log('error', error);
-      if (error = 'jwt expired') {
-
-      try {
-        await dispatch(refreshToken());
-        const updatedResponse = await authRequest('/auth/user');
-        if (updatedResponse.success) {
-          dispatch(getUserDataSuccess(updatedResponse.user));
+      if ((error = 'jwt expired')) {
+        try {
+          await dispatch(refreshToken());
+          const updatedResponse = await authRequest('/auth/user');
+          if (updatedResponse.success) {
+            dispatch(getUserDataSuccess(updatedResponse.user));
+          }
+        } catch (refreshError) {
+          console.error('Ошибка при обновлении токена:', refreshError);
         }
-      } catch (refreshError) {
-        console.error('Ошибка при обновлении токена:', refreshError);
-      }
       }
     }
   };
 };
 
-export const setUserData = (name: string, email: string):ThunkAction<void, RootState, unknown, AnyAction> => {
+export const setUserData = (
+  name: string,
+  email: string,
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
       const response = await authRequest('/auth/user', 'PATCH', {
@@ -170,7 +176,11 @@ export const setUserData = (name: string, email: string):ThunkAction<void, RootS
   };
 };
 
-export const register = (email: string, password: string, name: string):ThunkAction<any, RootState, unknown, AnyAction> => {
+export const register = (
+  email: string,
+  password: string,
+  name: string,
+): ThunkAction<any, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(registerStart());
     try {
@@ -191,7 +201,7 @@ export const register = (email: string, password: string, name: string):ThunkAct
   };
 };
 
-export const forgotPassword = (email: string):ThunkAction<void, RootState, unknown, AnyAction> => {
+export const forgotPassword = (email: string): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(forgotPasswordStart());
 
@@ -211,7 +221,10 @@ export const forgotPassword = (email: string):ThunkAction<void, RootState, unkno
   };
 };
 
-export const resetPassword = (password: string, token: string):ThunkAction<any, RootState, unknown, AnyAction> => {
+export const resetPassword = (
+  password: string,
+  token: string,
+): ThunkAction<any, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(resetPasswordStart());
 

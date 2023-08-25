@@ -1,0 +1,16 @@
+.ordersBlock {
+    width: 844px;
+    /* width: calc(1280px - 410px); */
+    /* width: 100%; */
+    padding: 0;
+    max-height: 600px;
+    overflow-y: scroll;
+    text-align: start;
+    min-height: 800px;
+    margin-bottom: 0;
+}
+
+/* .section {
+   max-width: 844px;
+   width: 100%;
+} */

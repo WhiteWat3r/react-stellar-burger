@@ -35,7 +35,9 @@ export const loginSuccess = (userData: TUser): ActionWithPayload<typeof LOGIN_SU
   };
 };
 
-export const loginFailed = (error: string | unknown): ActionWithPayload<typeof LOGIN_FAILED, string | unknown> => {
+export const loginFailed = (
+  error: string | unknown,
+): ActionWithPayload<typeof LOGIN_FAILED, string | unknown> => {
   return {
     type: LOGIN_FAILED,
     payload: error,

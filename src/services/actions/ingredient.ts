@@ -1,4 +1,4 @@
-import { TCreatedOrder, TIngredient } from '../types';
+import { TCreatedOrder, TIngredient, TOrder } from '../types';
 import { Action } from 'redux';
 import {ActionWithPayload} from './auth'
 
@@ -12,6 +12,11 @@ export const SEND_ORDER_FAILURE = 'SEND_ORDER_FAILURE';
 
 export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+
+export const CLEAR_CREATED_ORDER = 'CLEAR_CREATED_ORDER'
+export const SET_CURRENT_ORDER = 'SET_CURRENT_ORDER'
+
+export const GET_ORDER_INFO_SUCCESS = 'GET_ORDER_INFO_SUCCESS'
 
 export const fetchIngredientsRequest = () => {
   return {
@@ -50,3 +55,16 @@ export const sendOrderFailure = () => {
     type: SEND_ORDER_FAILURE,
   };
 };
+
+export const setCurrentOrder = (order: TOrder): ActionWithPayload<typeof SET_CURRENT_ORDER, TOrder> => ({
+  type: SET_CURRENT_ORDER,
+  payload: order,
+});
+
+export const getOrderInfoSuccess = () => ({
+  type: GET_ORDER_INFO_SUCCESS
+})
+
+export const clearCreatedOrder = () => ({
+  type: CLEAR_CREATED_ORDER
+})

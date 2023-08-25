@@ -20,7 +20,7 @@ export type TIngredient = {
 };
 
 
-export type TOrder = {
+export type TOrderNumber = {
   number: number
 }
 
@@ -29,5 +29,22 @@ export type TCreatedOrder = {
   success: boolean;
   name: string;
   order: TOrder
+}
+
+
+export type TFeed = {
+  orders: TOrder[];
+  total: number;
+  totalToday: number
+}
+
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
 }
 
