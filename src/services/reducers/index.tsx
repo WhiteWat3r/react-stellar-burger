@@ -3,7 +3,6 @@ import { combineReducers, applyMiddleware } from 'redux';
 import { modalReducer } from './modal';
 import { authReducer } from './auth';
 import { configureStore } from '@reduxjs/toolkit';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { socketMiddleware } from '../middleware/middleware';
 import { wsReducer } from './web-socket';
 import { config } from '../../utils/constants';

@@ -37,7 +37,7 @@ function FeedPage() {
   }, [feed]);
 
   useEffect(() => {
-    dispatch(wsConnectionStart());
+    dispatch(wsConnectionStart(''));
     return () => {
       dispatch(wsConnectionClosed());
     };

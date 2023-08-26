@@ -8,36 +8,39 @@ export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
 
     return (next) => (action) => {
       const { dispatch } = store;
-      const { type } = action;
+      const { type, payload } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+      // console.log(action);
+      
+      // const accessToken = getCookie('accessToken');
 
-      const accessToken = getCookie('accessToken');
+      if (type === wsInit) {
+        socket = new WebSocket(`${wsUrl}${payload}`);
+      };
 
-      if (type === wsInit && accessToken) {
-        socket = new WebSocket(`${wsUrl}?token=${accessToken}`);
-      }
+
+      
       if (type === onClose) {
         socket && socket.close(1000, 'CLOSE_NORMAL');
       }
       if (socket) {
-        socket.onopen = () => {
+        socket.onopen = (event) => {
           dispatch({ type: onOpen });
         };
 
-        socket.onerror = () => {
-          dispatch({ type: onError });
+        socket.onerror = (event) => {
+          dispatch({ type: onError, payload: event });
         };
 
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-
           const { success, ...restParsedData } = parsedData;
 
           dispatch({ type: onMessage, payload: restParsedData });
         };
 
-        socket.onclose = () => {
+        socket.onclose = (event) => {
           dispatch({ type: onClose });
         };
       }

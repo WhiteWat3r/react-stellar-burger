@@ -13,9 +13,10 @@ export const WS_USER_GET_FEED: 'WS__USER_GET_FEED' = 'WS__USER_GET_FEED';
 
 
 
-export const wsConnectionStart = () => {
+export const wsConnectionStart = (payload: string) => {
     return {
-        type: WS_CONNECTION_START
+        type: WS_CONNECTION_START,
+        payload: payload
     }
 }
 
@@ -26,9 +27,10 @@ export const wsConnectionClosed = () => {
 }
 
 
-export const wsUserConnectionStart = () => {
+export const wsUserConnectionStart = (token: string) => {
     return {
-        type: WS_USER_CONNECTION_START
+        type: WS_USER_CONNECTION_START,
+        payload: token
     }
 }
 

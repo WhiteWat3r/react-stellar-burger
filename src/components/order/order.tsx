@@ -39,11 +39,11 @@ const Order: FC<TOrderProps> = ({ order, fromProfile }) => {
 
     if (!fromProfile) {
       navigate(link, {
-        state: { background: location, array: orderIngredients },
+        state: { background: location },
       });
     } else {
       navigate(link, {
-        state: { background: location, array: orderIngredients },
+        state: { background: location, orderNumber: order.number },
       });
     }
   };

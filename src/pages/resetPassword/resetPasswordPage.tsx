@@ -33,9 +33,12 @@ function ResetPasswordPage() {
   const inputRef = useRef(null);
 
   const handleSubmitForm = async () => {
-    const error = await dispatch(resetPassword(password, recoverytoken));
-    console.log(error);
-    !error && navigate('/login');
+    try {
+      await dispatch(resetPassword(password, recoverytoken));
+      navigate('/login');
+    }catch (error) {
+      console.error('Ошибка при восстановлении пароля:', error);
+    }
   };
 
   return (

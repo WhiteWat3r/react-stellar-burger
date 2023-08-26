@@ -1,13 +1,6 @@
-import { Reducer } from 'redux';
 import { TIngredient, TCreatedOrder, TOrder } from '../types';
 
-import {
-  ADD_CONSTRUCTOR_INGREDIENT,
-  CLEAR_CONSTRUCTOR,
-  REMOVE_CONSTRUCTOR_INGREDIENT,
-  UPDATE_CONSTRUCTOR_INGREDIENTS,
-  REPLACE_CONSTRUCTOR_BUN,
-} from '../actions/burgerConstructor';
+
 import {
   FETCH_INGREDIENTS_REQUEST,
   FETCH_INGREDIENTS_SUCCESS,
@@ -18,6 +11,12 @@ import {
   SET_CURRENT_ORDER,
   GET_ORDER_INFO_SUCCESS,
   CLEAR_CREATED_ORDER,
+  ADD_CONSTRUCTOR_INGREDIENT,
+  CLEAR_CONSTRUCTOR,
+  REMOVE_CONSTRUCTOR_INGREDIENT,
+  UPDATE_CONSTRUCTOR_INGREDIENTS,
+  REPLACE_CONSTRUCTOR_BUN,
+  TIngredientsActions,
 } from '../actions/ingredient';
 
 export type IngredientState = {
@@ -27,7 +26,7 @@ export type IngredientState = {
   currentIngredient: TIngredient | null;
   currentOrder: TOrder | null;
   createdOrder: TCreatedOrder | null;
-  orderNumber: string | null;
+  orderNumber: string | null | number;
   orderStatus: boolean;
   constructorItems: TIngredient[];
   orderInfo: TOrder | null;
@@ -46,7 +45,7 @@ const initialState: IngredientState = {
   orderInfo: null,
 };
 
-export const ingredientReducer: Reducer<IngredientState> = function (state = initialState, action) {
+export const ingredientReducer = function (state = initialState, action: TIngredientsActions):IngredientState  {
   switch (action.type) {
     case FETCH_INGREDIENTS_REQUEST:
       return {
@@ -158,9 +157,7 @@ export const ingredientReducer: Reducer<IngredientState> = function (state = ini
 
     case GET_ORDER_INFO_SUCCESS:
       return {
-        ...state,
-        orderInfo: action.payload,
-      };
+        ...state      };
 
     case CLEAR_CREATED_ORDER:
       return {

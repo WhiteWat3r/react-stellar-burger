@@ -6,12 +6,13 @@ import { TOrder } from '../../services/types';
 import Loader from '../../components/loader/loader';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { wsUserConnectionClosed, wsUserConnectionStart } from '../../services/actions/web-socket';
+import { getCookie } from '../../utils/cookie';
 
 function ProfileOrdersPage() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(wsUserConnectionStart());
+    dispatch(wsUserConnectionStart(`?token=${getCookie('accessToken')}`));
     return () => {
       dispatch(wsUserConnectionClosed());
     };

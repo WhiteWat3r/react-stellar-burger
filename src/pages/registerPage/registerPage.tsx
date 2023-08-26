@@ -23,10 +23,12 @@ function RegisterPage() {
   const dispatch = useAppDispatch();
 
   const handleSubmitForm = async () => {
-    const error = await dispatch(register(email, password, name));
-
-    console.log(error);
-    !error && navigate('/login');
+    try {
+      await dispatch(register(email, password, name));
+      navigate('/login');
+    } catch (error) {
+      console.error('Ошибка при регистрации:', error);
+    }
   };
 
   return (

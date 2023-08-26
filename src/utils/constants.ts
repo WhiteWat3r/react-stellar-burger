@@ -7,3 +7,11 @@ export const config = {
     'Content-Type': 'application/json',
   },
 };
+
+
+// if (wsUrl = 'wss:/norma.nomoreparties.space/orders/all') {
+//   socket = new WebSocket(wsUrl)
+// } else if (wsUrl = 'wss://norma.nomoreparties.space/orders'){
+//   socket = new WebSocket(`${wsUrl}?token=${accessToken}`);
+
+// }

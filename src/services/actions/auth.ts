@@ -22,109 +22,191 @@ export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 export const CLEAR_EROR_FIELDS = 'CLEAR_EROR_FIELDS';
 
-export const loginStart = () => {
+export type TLoginStartAction = {
+  readonly type: typeof LOGIN_START;
+};
+
+export type TLoginSuccessAction = {
+  readonly type: typeof LOGIN_SUCCESS;
+  readonly payload: TUser;
+};
+
+export type TLoginFailedAction = {
+  readonly type: typeof LOGIN_FAILED;
+  readonly payload: string | unknown;
+};
+
+export type TRegisterStartAction = {
+  readonly type: typeof REGISTER_START;
+};
+
+export type TRegisterFailedAction = {
+  readonly type: typeof REGISTER_FAILED;
+  readonly payload: string | unknown;
+};
+
+export type TRegisterSuccessAction = {
+  readonly type: typeof REGISTER_SUCCESS;
+};
+
+export type TLogoutStartAction = {
+  readonly type: typeof LOGOUT_START;
+};
+
+export type TLogoutSuccessAction = {
+  readonly type: typeof LOGOUT_SUCCESS;
+};
+
+export type TGetUserDataSuccessAction = {
+  readonly type: typeof GET_USER_DATA;
+  readonly payload: TUser;
+};
+
+export type TForgotPasswordStartAction = {
+  readonly type: typeof FORGOT_PASSWORD_START;
+};
+
+export type TForgotPasswordSuccessAction = {
+  readonly type: typeof FORGOT_PASSWORD_SUCCESS;
+};
+
+export type TForgotPasswordFailedAction = {
+  readonly type: typeof FORGOT_PASSWORD_FAILED;
+  readonly payload: string | unknown
+};
+
+export type TClearErrorFieldsAction = {
+  readonly type: typeof CLEAR_EROR_FIELDS;
+  
+};
+
+export type TResetPasswordStartAction = {
+  readonly type: typeof RESET_PASSWORD_START;
+};
+
+export type TResetPasswordSuccessAction = {
+  readonly type: typeof RESET_PASSWORD_SUCCESS;
+};
+
+export type TResetPasswordFailedAction = {
+  readonly type: typeof RESET_PASSWORD_FAILED;
+  readonly payload: string | unknown;
+};
+
+export type TAuthActions =
+  | TLoginStartAction
+  | TLoginSuccessAction
+  | TLoginFailedAction
+  | TRegisterStartAction
+  | TRegisterFailedAction
+  | TRegisterSuccessAction
+  | TLogoutStartAction
+  | TLogoutSuccessAction
+  | TGetUserDataSuccessAction
+  | TForgotPasswordStartAction
+  | TForgotPasswordSuccessAction
+  | TForgotPasswordFailedAction
+  | TClearErrorFieldsAction
+  | TResetPasswordStartAction
+  | TResetPasswordSuccessAction
+  | TResetPasswordFailedAction;
+
+export const loginStart = (): TLoginStartAction => {
   return {
     type: LOGIN_START,
   };
 };
 
-export const loginSuccess = (userData: TUser): ActionWithPayload<typeof LOGIN_SUCCESS, TUser> => {
+export const loginSuccess = (userData: TUser): TLoginSuccessAction => {
   return {
     type: LOGIN_SUCCESS,
     payload: userData,
   };
 };
 
-export const loginFailed = (
-  error: string | unknown,
-): ActionWithPayload<typeof LOGIN_FAILED, string | unknown> => {
+export const loginFailed = (error: string | unknown): TLoginFailedAction => {
   return {
     type: LOGIN_FAILED,
     payload: error,
   };
 };
 
-export const registerStart = () => {
+export const registerStart = (): TRegisterStartAction => {
   return {
     type: REGISTER_START,
   };
 };
 
-export const registerFailed = (
-  error: string | unknown,
-): ActionWithPayload<typeof REGISTER_FAILED, string | unknown> => {
+export const registerFailed = (error: string | unknown): TRegisterFailedAction => {
   return {
     type: REGISTER_FAILED,
     payload: error,
   };
 };
 
-export const registerSuccess = () => {
+export const registerSuccess = (): TRegisterSuccessAction => {
   return {
     type: REGISTER_SUCCESS,
   };
 };
 
-export const logoutStart = () => {
+export const logoutStart = (): TLogoutStartAction => {
   return {
     type: LOGOUT_START,
   };
 };
 
-export const logoutSuccess = () => {
+export const logoutSuccess = (): TLogoutSuccessAction => {
   return {
     type: LOGOUT_SUCCESS,
   };
 };
 
-export const getUserDataSuccess = (
-  userData: TUser,
-): ActionWithPayload<typeof GET_USER_DATA, TUser> => {
+export const getUserDataSuccess = (userData: TUser): TGetUserDataSuccessAction => {
   return {
     type: GET_USER_DATA,
     payload: userData,
   };
 };
 
-export const forgotPasswordStart = () => {
+export const forgotPasswordStart = (): TForgotPasswordStartAction => {
   return {
     type: FORGOT_PASSWORD_START,
   };
 };
 
-export const forgotPasswordSuccess = () => {
+export const forgotPasswordSuccess = (): TForgotPasswordSuccessAction => {
   return {
     type: FORGOT_PASSWORD_SUCCESS,
   };
 };
 
-export const forgotPasswordFailed = () => {
+export const forgotPasswordFailed = (error: string | unknown): TForgotPasswordFailedAction => {
   return {
     type: FORGOT_PASSWORD_FAILED,
+    payload: error
   };
 };
 
-export const clearErrorFields = () => {
+export const clearErrorFields = (): TClearErrorFieldsAction => {
   return {
     type: CLEAR_EROR_FIELDS,
   };
 };
 
-export const resetPasswordStart = () => {
+export const resetPasswordStart = (): TResetPasswordStartAction => {
   return {
     type: RESET_PASSWORD_START,
   };
 };
 
-export const resetPasswordSuccess = () => {
+export const resetPasswordSuccess = (): TResetPasswordSuccessAction => {
   return {
     type: RESET_PASSWORD_SUCCESS,
   };
 };
 
-export const resetPasswordFailed = (
-  error: string | unknown,
-): ActionWithPayload<typeof RESET_PASSWORD_FAILED, string | unknown> => {
+export const resetPasswordFailed = (error: string | unknown): TResetPasswordFailedAction => {
   return {
     type: RESET_PASSWORD_FAILED,
     payload: error,
