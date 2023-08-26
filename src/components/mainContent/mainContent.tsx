@@ -16,6 +16,9 @@ import OrderDetails from '../order-details/order-details';
 import LoginPage from '../../pages/loginPage/loginPage';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import FeedPage from '../../pages/feedPage/feedPage';
+import ProfileOrdersPage from '../../pages/profileOrdersPage/profileOrdersPage';
+import OrderContent from '../order-content/order-content';
 
 function MainContent() {
   const location = useLocation();
@@ -57,13 +60,21 @@ function MainContent() {
         />
 
         <Route path="/ingredients/:id" element={<IngredientDetails isPage={true} />} />
+        <Route path="/feed/:id" element={<OrderContent isPage={true} />} />
+
+        <Route path="/feed" element={<FeedPage />} />
+
+        <Route
+          path="/profile/orders/:id"
+          element={<ProtectedRouteElement element={<OrderContent isPage={true} />} />}
+        />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 
       {isModalOpen && (
         <Modal handleCloseModal={handleCloseOrderModal}>
-          {createdOrder ? <OrderDetails /> : <Loader />}
+          <OrderDetails />
         </Modal>
       )}
 
@@ -74,6 +85,24 @@ function MainContent() {
             element={
               <Modal handleCloseModal={handleCloseIngredientModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal handleCloseModal={handleCloseIngredientModal}>
+                <OrderContent />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal handleCloseModal={handleCloseIngredientModal}>
+                <OrderContent />
               </Modal>
             }
           />

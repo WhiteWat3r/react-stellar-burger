@@ -22,6 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
+    // dispatch(getOrderInfo())
 
     if (accessToken) {
       console.log('start');

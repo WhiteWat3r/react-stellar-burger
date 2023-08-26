@@ -30,9 +30,9 @@ function AppHeader() {
           <p className={setTextClass('/')}>Конструктор</p>
         </NavLink>
 
-        <NavLink to="*" className={`${headerStyles.link} pt-4 pb-4 pl-5 pr-5`}>
-          <ListIcon type={setIconType('/*')} />
-          <p className={setTextClass('/*')}>Лента заказов</p>
+        <NavLink to="/feed"  className={`${headerStyles.link} pt-4 pb-4 pl-5 pr-5`}>
+          <ListIcon type={setIconType('/feed')} />
+          <p className={setTextClass('/feed')}>Лента заказов</p>
         </NavLink>
 
         <div className={headerStyles.logoContainer}>

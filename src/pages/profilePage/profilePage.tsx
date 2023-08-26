@@ -19,13 +19,6 @@ function ProfilePage() {
 
   const authProcess = useAppSelector((store) => store.auth.authProcess);
 
-  // if (!user) {
-  //   return (
-  //     <Navigate
-  //       to={'/login'}
-  //     />
-  //   );
-  // }
   const handeExitClick = () => {
     localStorage.removeItem('redirectPath');
 
@@ -77,7 +70,7 @@ function ProfilePage() {
           <div className={style.container}>
             <Routes>
               <Route path="/" element={<ProfileOverview />} />
-              <Route path="orders" element={<ProfileOrdersPage />} />
+              <Route path="/orders" element={<ProfileOrdersPage />} />
             </Routes>
           </div>
         </>

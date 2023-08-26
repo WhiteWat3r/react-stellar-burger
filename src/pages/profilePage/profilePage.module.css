@@ -4,7 +4,6 @@
   /* flex-direction: row;
     justify-content: left; */
   margin: 0 auto;
-  margin-top: 180px;
   gap: 60px;
   /* justify-content: center; */
 }
@@ -32,6 +31,8 @@
 .navBlock {
   max-width: 320px;
   width: 100%;
+  margin-top: 180px;
+
 }
 
 .item {

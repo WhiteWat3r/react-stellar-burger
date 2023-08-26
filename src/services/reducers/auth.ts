@@ -18,29 +18,30 @@ import {
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_SUCCESS,
   CLEAR_EROR_FIELDS,
+  TAuthActions,
 } from '../actions/auth';
 
 export type AuthState = {
   user: TUser | null;
   isAuthenticated: boolean;
   authProcess: boolean;
-  error: boolean;
-  loginError: boolean;
-  forgotPasswordError: boolean;
-  resetPasswordError: boolean;
+  error: string | unknown;
+  loginError: string | unknown;
+  forgotPasswordError: string | unknown;
+  resetPasswordError: string | unknown;
 };
 
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   authProcess: false,
-  error: false,
-  loginError: false,
-  forgotPasswordError: false,
-  resetPasswordError: false,
+  error: '',
+  loginError: '',
+  forgotPasswordError: '',
+  resetPasswordError: '',
 };
 
-export const authReducer: Reducer<AuthState> = function (state = initialState, action) {
+export const authReducer = function (state = initialState, action:TAuthActions): AuthState {
   switch (action.type) {
     case RESET_PASSWORD_START:
     case FORGOT_PASSWORD_START:
@@ -57,29 +58,22 @@ export const authReducer: Reducer<AuthState> = function (state = initialState, a
         ...state,
         user: action.payload,
         isAuthenticated: true,
-        authProcess: false,
-        loginError: false,
-      };
+        authProcess: false
+         };
 
     case REGISTER_SUCCESS:
       return {
         ...state,
-        authProcess: false,
-        error: false,
-      };
+        authProcess: false      };
     case FORGOT_PASSWORD_SUCCESS:
       return {
         ...state,
-        authProcess: false,
-        forgotPasswordError: false,
-      };
+        authProcess: false      };
 
     case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
-        authProcess: false,
-        resetPasswordError: false,
-      };
+        authProcess: false      };
 
     case LOGOUT_SUCCESS:
       return {
@@ -122,14 +116,6 @@ export const authReducer: Reducer<AuthState> = function (state = initialState, a
         authProcess: false,
         error: action.payload,
       };
-
-    // case CLEAR_EROR_FIELDS:
-    // return {
-    //   error: false,
-    //   loginError: false,
-    //   forgotPasswordError: false,
-    //   resetPasswordError: false
-    // }
 
     default:
       return state;

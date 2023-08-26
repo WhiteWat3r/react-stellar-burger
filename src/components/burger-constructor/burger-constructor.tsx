@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   ConstructorElement,
@@ -7,31 +7,29 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import constructorStyles from './burger-constructor.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {
   addConstructorIngredient,
   removeConstructorIngredient,
   replaceConstructorBun,
   updateConstructorIngredients,
-} from '../../services/actions/burgerConstructor';
+} from '../../services/actions/ingredient';
 
 import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
 import { sendOrder } from '../../utils/api';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { RootState } from '../../services/reducers';
 import { TIngredient } from '../../services/types';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function BurgerConstructor() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isConstructorEmpty, setISConstaructorEmpty] = useState(true);
-  const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
   const location = useLocation();
 
-  const constructorIngredients = useSelector(
-    (store: RootState) => store.ingredient.constructorItems,
-  );
+  const constructorIngredients = useAppSelector((store) => store.ingredient.constructorItems);
 
   const bun = constructorIngredients.find((item) => {
     return item.type === 'bun';
