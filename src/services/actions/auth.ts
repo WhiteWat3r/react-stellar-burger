@@ -188,11 +188,6 @@ export const forgotPasswordFailed = (error: string | unknown): TForgotPasswordFa
   };
 };
 
-export const clearErrorFields = (): TClearErrorFieldsAction => {
-  return {
-    type: CLEAR_EROR_FIELDS,
-  };
-};
 
 export const resetPasswordStart = (): TResetPasswordStartAction => {
   return {

@@ -1,10 +1,10 @@
-import { ingredientReducer } from './ingredient';
+import { ingredientReducer } from './ingredient/ingredient';
 import { combineReducers, applyMiddleware } from 'redux';
-import { modalReducer } from './modal';
-import { authReducer } from './auth';
+import { modalReducer } from './modal/modal';
+import { authReducer } from './auth/auth';
 import { configureStore } from '@reduxjs/toolkit';
 import { socketMiddleware } from '../middleware/middleware';
-import { wsReducer } from './web-socket';
+import { wsReducer } from './web-socket/web-socket';
 import { config } from '../../utils/constants';
 import {
   WS_CONNECTION_CLOSED,

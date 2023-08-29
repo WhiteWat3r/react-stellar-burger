@@ -4,15 +4,12 @@ import {
   fetchIngredientsFailure,
   fetchIngredientsRequest,
   fetchIngredientsSuccess,
-  getOrderInfoSuccess,
-  // getOrderInfoSuccess,
   sendOrderFailure,
   sendOrderSuccess,
   setCurrentOrder,
 } from '../services/actions/ingredient';
 
 import { authRequest, request } from './request';
-import { config } from './constants';
 import { clearConstructor } from '../services/actions/ingredient';
 import { TModalActions, openModal } from '../services/actions/modal';
 import { getCookie, setCookie } from './cookie';
@@ -36,7 +33,6 @@ import {
 } from '../services/actions/auth';
 import { AppDispatch, RootState } from '../services/reducers';
 import { ThunkAction } from 'redux-thunk';
-import { AnyAction } from 'redux';
 
 
 
@@ -57,6 +53,8 @@ export const getIngredients = () => {
     dispatch(fetchIngredientsRequest());
     request('/ingredients')
       .then((data) => {
+       console.log(data.data);
+       
         dispatch(fetchIngredientsSuccess(data.data));
       })
       .catch((error) => dispatch(fetchIngredientsFailure(error)));
@@ -90,6 +88,8 @@ export const sendOrder = (order: {
 
     authRequest('/orders', 'POST', { ingredients })
       .then((data) => {
+        console.log(data);
+        
         dispatch(sendOrderSuccess(data));
         dispatch(clearConstructor());
       })
@@ -115,7 +115,7 @@ export const login = (
         setCookie('refreshToken', response.refreshToken);
 
         setCookie('accessToken', accessToken);
-
+        
         dispatch(loginSuccess(response.user));
       }
     } catch (error) {
@@ -173,7 +173,8 @@ export const getUserData = (): AppThunk => {
       const response = await authRequest('/auth/user');
 
       if (response.success) {
-        dispatch(getUserDataSuccess(response.user));
+        dispatch(getUserDataSuccess(response.user))
+        
       }
     } catch (error) {
       if ((error = 'jwt expired')) {
@@ -182,6 +183,7 @@ export const getUserData = (): AppThunk => {
           const updatedResponse = await authRequest('/auth/user');
           if (updatedResponse.success) {
             dispatch(getUserDataSuccess(updatedResponse.user));
+            
           }
         } catch (refreshError) {
           console.error('Ошибка при обновлении токена:', refreshError);

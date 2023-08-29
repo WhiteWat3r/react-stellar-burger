@@ -98,7 +98,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium">Булки</h2>
           <ul className={ingredientsStyles.items}>
             {ingredients.map(
-              (ingr) => ingr.type === 'bun' && <Ingredient ingr={ingr} key={ingr._id} />,
+              (ingr, index) => ingr.type === 'bun' && <Ingredient ingr={ingr} key={ingr._id}/>,
             )}
           </ul>
         </div>
@@ -107,7 +107,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium">Cоусы</h2>
           <ul className={ingredientsStyles.items}>
             {ingredients.map(
-              (ingr) => ingr.type === 'sauce' && <Ingredient key={ingr._id} ingr={ingr} />,
+              (ingr, index) => ingr.type === 'sauce' && <Ingredient key={ingr._id} ingr={ingr} index={index} />,
             )}
           </ul>
         </div>
@@ -116,7 +116,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium">Начинки</h2>
           <ul className={ingredientsStyles.items}>
             {ingredients.map(
-              (ingr) => ingr.type === 'main' && <Ingredient key={ingr._id} ingr={ingr} />,
+              (ingr, index) => ingr.type === 'main' && <Ingredient key={ingr._id} ingr={ingr}/>,
             )}
           </ul>
         </div>

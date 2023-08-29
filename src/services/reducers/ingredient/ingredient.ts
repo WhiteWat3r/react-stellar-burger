@@ -1,4 +1,4 @@
-import { TIngredient, TCreatedOrder, TOrder } from '../types';
+import { TIngredient, TCreatedOrder, TOrder } from '../../types';
 
 
 import {
@@ -9,7 +9,6 @@ import {
   SEND_ORDER_SUCCESS,
   SEND_ORDER_FAILURE,
   SET_CURRENT_ORDER,
-  GET_ORDER_INFO_SUCCESS,
   CLEAR_CREATED_ORDER,
   ADD_CONSTRUCTOR_INGREDIENT,
   CLEAR_CONSTRUCTOR,
@@ -17,7 +16,7 @@ import {
   UPDATE_CONSTRUCTOR_INGREDIENTS,
   REPLACE_CONSTRUCTOR_BUN,
   TIngredientsActions,
-} from '../actions/ingredient';
+} from '../../actions/ingredient';
 
 export type IngredientState = {
   items: TIngredient[];
@@ -32,7 +31,7 @@ export type IngredientState = {
   orderInfo: TOrder | null;
 };
 
-const initialState: IngredientState = {
+export const initialState: IngredientState = {
   items: [],
   isLoading: false,
   error: null,
@@ -114,7 +113,17 @@ export const ingredientReducer = function (state = initialState, action: TIngred
           return item;
         }),
         items: state.items.map((item) => {
+
+        const isAlreadyHave =  state.constructorItems.find((item) => {
+            if (item._id === action.payload._id) {
+              return item
+            }
+          })
+          
           if (item._id === action.payload._id) {
+            if (isAlreadyHave) {
+              return item
+            }
             return { ...item, __v: item.__v + 2 };
           }
           if (item._id === state.constructorItems[action.index]._id) {
@@ -154,10 +163,6 @@ export const ingredientReducer = function (state = initialState, action: TIngred
           return { ...item, __v: 0 };
         }),
       };
-
-    case GET_ORDER_INFO_SUCCESS:
-      return {
-        ...state      };
 
     case CLEAR_CREATED_ORDER:
       return {

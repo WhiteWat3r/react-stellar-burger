@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { TUser } from '../types';
+import { TUser } from '../../types';
 
 import {
   GET_USER_DATA,
@@ -17,9 +17,8 @@ import {
   RESET_PASSWORD_START,
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_SUCCESS,
-  CLEAR_EROR_FIELDS,
   TAuthActions,
-} from '../actions/auth';
+} from '../../actions/auth';
 
 export type AuthState = {
   user: TUser | null;
@@ -31,7 +30,7 @@ export type AuthState = {
   resetPasswordError: string | unknown;
 };
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   authProcess: false,
