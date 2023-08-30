@@ -9,8 +9,6 @@ describe('Тест бургер конструктора', () => {
 
 
     it('Проверка конструктора и блока ингридиентов', () => {
-
-        // cy.get(constructor).should('not.exist');
         cy.get('[class^=burger-constructor_list]').should('exist');
         cy.get('[class^=burger-ingredients_scrollDiv]').should('exist');
 
@@ -51,7 +49,7 @@ describe('Тест бургер конструктора', () => {
 
         cy.get('button').click()
 
-        cy.get('[class^=order-details_modal]').should('exist')
+        cy.get('[class^=order-details_modal]').should('exist') // модалка
 
 
         cy.get('[class^=order-details_title]', { timeout: 17000 });        

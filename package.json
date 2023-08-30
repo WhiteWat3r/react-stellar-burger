@@ -29,6 +29,7 @@
     "@types/react-dom": "17.0.0",
     "@types/uuid": "^9.0.2",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^6.0.0",
     "jest": "^27.5.1",
     "redux-mock-store": "^1.5.4",
     "typescript": "^4.9.5"
@@ -38,7 +39,10 @@
     "build": "react-scripts build",
     "test:cy": "cypress open",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "deploy-script": "npm run build && scp -r ./build/* ilya21@130.193.38.153:/home/ilya/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
@@ -57,5 +61,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "./"
 }

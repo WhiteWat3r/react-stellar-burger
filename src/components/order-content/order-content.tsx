@@ -32,11 +32,9 @@ const OrderContent: FC<TOrderStatusProps> = ({ isPage }) => {
     }
   }, []);
 
-  let orderIngredients: TIngredient[] = [];
   let orderPrice = 0;
-
   let order = null;
-
+  let updatedIngredients: any[] = []
   order = useAppSelector((store) => store.ingredient.currentOrder);
 
   if (!order && orders) {
@@ -46,7 +44,7 @@ const OrderContent: FC<TOrderStatusProps> = ({ isPage }) => {
   const ingredients = useAppSelector((store) => store.ingredient.items);
 
   if (order) {
-    orderIngredients = order.ingredients
+    const orderIngredients = order.ingredients
       .map((id: string) => ingredients.find((ingr) => ingr._id === id))
       .filter((ingr: TIngredient) => ingr !== undefined) as TIngredient[];
 
@@ -56,8 +54,29 @@ const OrderContent: FC<TOrderStatusProps> = ({ isPage }) => {
       }
       return acc;
     }, 0);
+
+
+    const uniqueIngredients = Array.from(new Set(orderIngredients.map((ingr) => ingr.name)));
+
+    updatedIngredients = uniqueIngredients.map((name) => {
+      const count = orderIngredients.filter((ingr) => ingr.name === name).length;
+      const ingr = orderIngredients.find((ingr) => ingr.name === name);
+      if (count > 1 && ingr) {
+        return {
+            ...ingr,
+            multiplier: count,
+        };
+      }
+      return ingr;
+    });
+
+
+
+
   }
 
+  console.log(updatedIngredients);
+  
   return (
     <div className={style.orderContent}>
       {order ? (
@@ -76,7 +95,7 @@ const OrderContent: FC<TOrderStatusProps> = ({ isPage }) => {
           </p>
           <p className="mb-6 text text_type_main-default">Состав:</p>
           <ul className={style.list + ' pr-6 custom-scroll'}>
-            {orderIngredients.map((ingr, index) => (
+            {updatedIngredients.map((ingr, index) => (
               <li className={style.ingredient} key={index}>
                 <div className={style.image}>
                   <img className={style.ingredientImg} src={ingr.image} alt={ingr.name} />
@@ -84,7 +103,7 @@ const OrderContent: FC<TOrderStatusProps> = ({ isPage }) => {
                 </div>
 
                 <div className={style.basket}>
-                  <p className="text text_type_digits-default mr-2">{ingr.price}</p>
+                  <p className="text text_type_digits-default mr-2">{ingr.multiplier ? `${ingr.multiplier} x ${ingr.price}` : ingr.price}</p>
                   <CurrencyIcon type="primary" />
                 </div>
               </li>
