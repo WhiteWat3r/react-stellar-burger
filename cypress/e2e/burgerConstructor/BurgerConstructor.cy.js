@@ -4,7 +4,6 @@
 
 describe('Тест бургер конструктора', () => {
     beforeEach(() => {
-        cy.intercept('GET', '/ingredients', {fixture: 'ingredients.json'})
         cy.visit('http://localhost:3000');
     });
 
@@ -17,22 +16,44 @@ describe('Тест бургер конструктора', () => {
 
     })
 
-    // it('Проверка модального окна', () => {
-
-    //     // cy.get(constructor).should('not.exist');
-    //     cy.get('[class^=burger-constructor_list]').should('exist');
-    //     cy.get('[class^=burger-ingredients_scrollDiv]').should('exist');
-
-    // })
 
     it('Проверка перетаскивания', () => {
 
-        cy.get('[class^=ingredient_item]').should('exist').find('p').contains('Соус Spicy-X')
+        cy.get('[class^=ingredient_item]').find('p').contains('Соус Spicy-X')
+        cy.get('[class^=constructor-ingredient_item]').should('not.exist')
+
+
+
         cy.get(`[data-testid^="drag-item-3"]`).trigger('dragstart');
         cy.get('[class^=burger-constructor_list]').trigger('drop');
-        cy.get('[class^=burger-constructor_nachBlock]').should('exist')
-        cy.get('[class^=constructor-ingredient_item]').should('exist').find('span').contains('Соус Spicy-X')
-        // cy.get('[class^=burger-ingredients_scrollDiv]').should('exist');
+        cy.get('[class^=constructor-ingredient_item]').find('span').contains('Соус Spicy-X')
         
+    })
+
+    
+    it('Проверка модального окна', () => {
+        cy.get(`[data-testid^="drag-item-3"]`).trigger('dragstart');
+        cy.get('[class^=burger-constructor_list]').trigger('drop');
+
+      
+        cy.get(`[data-testid^="drag-item-0"]`).trigger('dragstart');
+        cy.get('[class^=burger-constructor_list]').trigger('drop'); // опять перетаскиваем игредиенты 
+
+
+        cy.get('button').click()
+
+
+        cy.get('[class^=input__container]').first().type('goirkopf@gmail.com')
+        cy.get('[class^=input__container]').last().type('1337') // авторизация
+
+        cy.get('button').click().wait(3000)
+
+
+        cy.get('button').click()
+
+        cy.get('[class^=order-details_modal]').should('exist')
+
+
+        cy.get('[class^=order-details_title]', { timeout: 17000 });        
     })
 })
