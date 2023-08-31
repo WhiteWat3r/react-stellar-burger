@@ -18,6 +18,8 @@ import {
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_SUCCESS,
   TAuthActions,
+  SET_LOADING_DATA_START,
+  SET_LOADING_DATA_FINISH,
 } from '../../actions/auth';
 
 export type AuthState = {
@@ -28,6 +30,7 @@ export type AuthState = {
   loginError: string | unknown;
   forgotPasswordError: string | unknown;
   resetPasswordError: string | unknown;
+  dataLoading: boolean
 };
 
 export const initialState: AuthState = {
@@ -38,6 +41,7 @@ export const initialState: AuthState = {
   loginError: '',
   forgotPasswordError: '',
   resetPasswordError: '',
+  dataLoading: false,
 };
 
 export const authReducer = function (state = initialState, action:TAuthActions): AuthState {
@@ -115,7 +119,17 @@ export const authReducer = function (state = initialState, action:TAuthActions):
         authProcess: false,
         error: action.payload,
       };
-
+      case SET_LOADING_DATA_START:
+        return {
+          ...state,
+          dataLoading: true,
+        };
+        case SET_LOADING_DATA_FINISH:
+        return {
+          ...state,
+          dataLoading: false,
+        };
+  
     default:
       return state;
   }

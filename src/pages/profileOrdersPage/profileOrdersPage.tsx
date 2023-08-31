@@ -11,12 +11,18 @@ import { getCookie } from '../../utils/cookie';
 function ProfileOrdersPage() {
   const dispatch = useAppDispatch();
 
+
+  
   useEffect(() => {
     dispatch(wsUserConnectionStart(`?token=${getCookie('accessToken')}`));
     return () => {
       dispatch(wsUserConnectionClosed());
     };
   }, [dispatch]);
+
+
+
+
 
   const userFeed = useAppSelector((store) => store.ws.feedUser);
 

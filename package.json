@@ -32,17 +32,17 @@
     "gh-pages": "^6.0.0",
     "jest": "^27.5.1",
     "redux-mock-store": "^1.5.4",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "cypress": "^12.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test:cy": "cypress open",
+    "cypress": "cypress open",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "deploy-script": "npm run build && scp -r ./build/* ilya21@130.193.38.153:/home/ilya/stellar-frontend"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

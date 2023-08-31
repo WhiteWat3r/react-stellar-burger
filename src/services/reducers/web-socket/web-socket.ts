@@ -87,6 +87,9 @@ export const wsReducer = (state = initialState, action: AnyAction) => {
         errorUser: undefined,
         feedUser: action.payload,
       };
+
+
+
     default:
       return state;
   }

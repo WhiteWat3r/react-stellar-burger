@@ -30,6 +30,8 @@ import {
   resetPasswordFailed,
   resetPasswordStart,
   resetPasswordSuccess,
+  setLoadinDataFinish,
+  setLoadinDataStart,
 } from '../services/actions/auth';
 import { AppDispatch, RootState } from '../services/reducers';
 import { ThunkAction } from 'redux-thunk';
@@ -53,7 +55,6 @@ export const getIngredients = () => {
     dispatch(fetchIngredientsRequest());
     request('/ingredients')
       .then((data) => {
-       console.log(data.data);
        
         dispatch(fetchIngredientsSuccess(data.data));
       })
@@ -68,7 +69,6 @@ export const getOrderInfo = (number: number) => {
   return (dispatch: AppDispatch) => {
   authRequest(`/orders/${number}`)
       .then((data) => {
-        console.log(data.orders[0]);
         
         dispatch(setCurrentOrder(data.orders[0]));
       })
@@ -88,7 +88,6 @@ export const sendOrder = (order: {
 
     authRequest('/orders', 'POST', { ingredients })
       .then((data) => {
-        console.log(data);
         
         dispatch(sendOrderSuccess(data));
         dispatch(clearConstructor());
@@ -169,13 +168,16 @@ export const refreshToken = (): AppThunk => {
 
 export const getUserData = (): AppThunk => {
   return async (dispatch) => {
+    dispatch(setLoadinDataStart())
     try {
       const response = await authRequest('/auth/user');
 
       if (response.success) {
         dispatch(getUserDataSuccess(response.user))
-        
+        dispatch(setLoadinDataFinish())
+
       }
+
     } catch (error) {
       if ((error = 'jwt expired')) {
         try {
@@ -183,9 +185,13 @@ export const getUserData = (): AppThunk => {
           const updatedResponse = await authRequest('/auth/user');
           if (updatedResponse.success) {
             dispatch(getUserDataSuccess(updatedResponse.user));
-            
+            dispatch(setLoadinDataFinish())
+
           }
+
         } catch (refreshError) {
+          dispatch(setLoadinDataFinish())
+
           console.error('Ошибка при обновлении токена:', refreshError);
         }
       }

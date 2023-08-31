@@ -25,7 +25,6 @@ function App() {
     // dispatch(getOrderInfo())
 
     if (accessToken) {
-      console.log('start');
       dispatch(getUserData());
     }
   }, [dispatch]);

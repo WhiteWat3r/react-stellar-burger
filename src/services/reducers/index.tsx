@@ -30,8 +30,8 @@ const wsActions = {
 const wsUserActions = {
   wsInit: WS_USER_CONNECTION_START,
   onOpen: WS_USER_CONNECTION_SUCCESS,
-  onClose: WS_USER_CONNECTION_ERROR,
-  onError: WS_USER_CONNECTION_CLOSED,
+  onClose: WS_USER_CONNECTION_CLOSED,
+  onError: WS_USER_CONNECTION_ERROR,
   onMessage: WS_USER_GET_FEED,
 };
 
