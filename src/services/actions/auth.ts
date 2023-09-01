@@ -21,11 +21,20 @@ export const RESET_PASSWORD_START = 'RESET_PASSWORD_START';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 export const CLEAR_EROR_FIELDS = 'CLEAR_EROR_FIELDS';
+export const SET_LOADING_DATA_START = 'SET_LOADING_DATA_START'
+export const SET_LOADING_DATA_FINISH = 'SET_LOADING_DATA_FINISH'
+
 
 export type TLoginStartAction = {
   readonly type: typeof LOGIN_START;
 };
+export type TLoadingDataFinish= {
+  readonly type: typeof SET_LOADING_DATA_FINISH;
+};
 
+export type TLoadingDataStart = {
+  readonly type: typeof SET_LOADING_DATA_START;
+};
 export type TLoginSuccessAction = {
   readonly type: typeof LOGIN_SUCCESS;
   readonly payload: TUser;
@@ -109,7 +118,9 @@ export type TAuthActions =
   | TClearErrorFieldsAction
   | TResetPasswordStartAction
   | TResetPasswordSuccessAction
-  | TResetPasswordFailedAction;
+  | TResetPasswordFailedAction
+  | TLoadingDataStart
+  | TLoadingDataFinish
 
 export const loginStart = (): TLoginStartAction => {
   return {
@@ -188,11 +199,6 @@ export const forgotPasswordFailed = (error: string | unknown): TForgotPasswordFa
   };
 };
 
-export const clearErrorFields = (): TClearErrorFieldsAction => {
-  return {
-    type: CLEAR_EROR_FIELDS,
-  };
-};
 
 export const resetPasswordStart = (): TResetPasswordStartAction => {
   return {
@@ -210,5 +216,23 @@ export const resetPasswordFailed = (error: string | unknown): TResetPasswordFail
   return {
     type: RESET_PASSWORD_FAILED,
     payload: error,
+  };
+};
+
+
+
+
+
+export const setLoadinDataStart = (): TLoadingDataStart => {
+  return {
+    type: SET_LOADING_DATA_START,
+  };
+};
+
+
+
+export const setLoadinDataFinish = (): TLoadingDataFinish => {
+  return {
+    type: SET_LOADING_DATA_FINISH,
   };
 };

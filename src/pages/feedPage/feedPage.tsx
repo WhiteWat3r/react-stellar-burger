@@ -9,10 +9,9 @@ import { TOrder } from '../../services/types';
 
 function FeedPage() {
   const dispatch = useAppDispatch();
-  console.log('refresh');
+  // console.log('refresh');
 
   const feed = useAppSelector((store) => store.ws.feed);
-  // console.log(feed);
 
   const [readyOrderNumbers, setReadyOrderNumbers] = useState([]);
 

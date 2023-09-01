@@ -11,11 +11,12 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 
 type TIngredientProps = {
-  ingr: TIngredient
+  ingr: TIngredient;
+  index?: number
 }
 
 
-const Ingredient: FC<TIngredientProps> = ({ ingr }) =>{
+const Ingredient: FC<TIngredientProps> = ({ ingr, index }) =>{
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,7 +38,7 @@ const Ingredient: FC<TIngredientProps> = ({ ingr }) =>{
   });
 
   return (
-    <li onClick={onClick} className={`${ingredientStyles.list} mt-6 mb-10 ml-4 mr-1`} ref={drafRef}>
+    <li onClick={onClick} className={`${ingredientStyles.item} mt-6 mb-10 ml-4 mr-1`} ref={drafRef} data-testid={`drag-item-${index}`}>
       <Counter count={ingr.__v} size="default" extraClass="m-1" />
 
       <img src={ingr.image} alt={ingr.name} className="ml-4 mr-4 mb-1" />

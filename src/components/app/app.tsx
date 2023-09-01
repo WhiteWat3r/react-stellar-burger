@@ -25,7 +25,6 @@ function App() {
     // dispatch(getOrderInfo())
 
     if (accessToken) {
-      console.log('start');
       dispatch(getUserData());
     }
   }, [dispatch]);
@@ -44,3 +43,18 @@ function App() {
 }
 
 export default App;
+
+
+// const sayHi = () => {
+//   const privet = 'privet'
+
+//   const sayhyAgain = () => {
+//     console.log(privet);
+    
+//   }
+//   return sayhyAgain
+// }
+
+// const newSayHi = sayHi()
+
+// newSayHi()

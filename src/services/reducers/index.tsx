@@ -1,10 +1,10 @@
-import { ingredientReducer } from './ingredient';
+import { ingredientReducer } from './ingredient/ingredient';
 import { combineReducers, applyMiddleware } from 'redux';
-import { modalReducer } from './modal';
-import { authReducer } from './auth';
+import { modalReducer } from './modal/modal';
+import { authReducer } from './auth/auth';
 import { configureStore } from '@reduxjs/toolkit';
 import { socketMiddleware } from '../middleware/middleware';
-import { wsReducer } from './web-socket';
+import { wsReducer } from './web-socket/web-socket';
 import { config } from '../../utils/constants';
 import {
   WS_CONNECTION_CLOSED,
@@ -30,8 +30,8 @@ const wsActions = {
 const wsUserActions = {
   wsInit: WS_USER_CONNECTION_START,
   onOpen: WS_USER_CONNECTION_SUCCESS,
-  onClose: WS_USER_CONNECTION_ERROR,
-  onError: WS_USER_CONNECTION_CLOSED,
+  onClose: WS_USER_CONNECTION_CLOSED,
+  onError: WS_USER_CONNECTION_ERROR,
   onMessage: WS_USER_GET_FEED,
 };
 

@@ -11,15 +11,13 @@ export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
       const { type, payload } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
       // console.log(action);
-      
+
       // const accessToken = getCookie('accessToken');
 
       if (type === wsInit) {
         socket = new WebSocket(`${wsUrl}${payload}`);
-      };
+      }
 
-
-      
       if (type === onClose) {
         socket && socket.close(1000, 'CLOSE_NORMAL');
       }
@@ -29,7 +27,8 @@ export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
         };
 
         socket.onerror = (event) => {
-          dispatch({ type: onError, payload: event });
+          
+          dispatch({ type: onError });
         };
 
         socket.onmessage = (event) => {

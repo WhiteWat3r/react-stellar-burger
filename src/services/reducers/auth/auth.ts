@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { TUser } from '../types';
+import { TUser } from '../../types';
 
 import {
   GET_USER_DATA,
@@ -17,9 +17,10 @@ import {
   RESET_PASSWORD_START,
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_SUCCESS,
-  CLEAR_EROR_FIELDS,
   TAuthActions,
-} from '../actions/auth';
+  SET_LOADING_DATA_START,
+  SET_LOADING_DATA_FINISH,
+} from '../../actions/auth';
 
 export type AuthState = {
   user: TUser | null;
@@ -29,9 +30,10 @@ export type AuthState = {
   loginError: string | unknown;
   forgotPasswordError: string | unknown;
   resetPasswordError: string | unknown;
+  dataLoading: boolean
 };
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   authProcess: false,
@@ -39,6 +41,7 @@ const initialState: AuthState = {
   loginError: '',
   forgotPasswordError: '',
   resetPasswordError: '',
+  dataLoading: false,
 };
 
 export const authReducer = function (state = initialState, action:TAuthActions): AuthState {
@@ -116,7 +119,17 @@ export const authReducer = function (state = initialState, action:TAuthActions):
         authProcess: false,
         error: action.payload,
       };
-
+      case SET_LOADING_DATA_START:
+        return {
+          ...state,
+          dataLoading: true,
+        };
+        case SET_LOADING_DATA_FINISH:
+        return {
+          ...state,
+          dataLoading: false,
+        };
+  
     default:
       return state;
   }

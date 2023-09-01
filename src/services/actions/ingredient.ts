@@ -17,8 +17,6 @@ export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const CLEAR_CREATED_ORDER = 'CLEAR_CREATED_ORDER';
 export const SET_CURRENT_ORDER = 'SET_CURRENT_ORDER';
 
-export const GET_ORDER_INFO_SUCCESS = 'GET_ORDER_INFO_SUCCESS';
-
 export const ADD_CONSTRUCTOR_INGREDIENT = 'ADD_INGRIEDIENT';
 export const REMOVE_CONSTRUCTOR_INGREDIENT = 'REMOVE_INGRIEDIENT';
 export const UPDATE_CONSTRUCTOR_INGREDIENTS = 'UPDATE_CONSTRUCTOR_INGREDIENTS';
@@ -58,9 +56,6 @@ export type TSetCurrentOrderAction = {
   readonly payload: TOrder;
 };
 
-export type TGetOrderInfoSuccessAction = {
-  readonly type: typeof GET_ORDER_INFO_SUCCESS;
-};
 
 export type TClearCreatedOrderAction = {
   readonly type: typeof CLEAR_CREATED_ORDER;
@@ -94,7 +89,6 @@ export type TClearConstructorAction = {
 
 export type TIngredientsActions =
   | TClearCreatedOrderAction
-  | TGetOrderInfoSuccessAction
   | TSetCurrentOrderAction
   | TSendOrderFailureAction
   | TSendOrderSuccessAction
@@ -192,9 +186,6 @@ export const setCurrentOrder = (order: TOrder): TSetCurrentOrderAction => {
   };
 };
 
-export const getOrderInfoSuccess = (): TGetOrderInfoSuccessAction => ({
-  type: GET_ORDER_INFO_SUCCESS,
-});
 
 export const clearCreatedOrder = (): TClearCreatedOrderAction => ({
   type: CLEAR_CREATED_ORDER,

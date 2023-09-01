@@ -4,15 +4,12 @@ import {
   fetchIngredientsFailure,
   fetchIngredientsRequest,
   fetchIngredientsSuccess,
-  getOrderInfoSuccess,
-  // getOrderInfoSuccess,
   sendOrderFailure,
   sendOrderSuccess,
   setCurrentOrder,
 } from '../services/actions/ingredient';
 
 import { authRequest, request } from './request';
-import { config } from './constants';
 import { clearConstructor } from '../services/actions/ingredient';
 import { TModalActions, openModal } from '../services/actions/modal';
 import { getCookie, setCookie } from './cookie';
@@ -33,10 +30,11 @@ import {
   resetPasswordFailed,
   resetPasswordStart,
   resetPasswordSuccess,
+  setLoadinDataFinish,
+  setLoadinDataStart,
 } from '../services/actions/auth';
 import { AppDispatch, RootState } from '../services/reducers';
 import { ThunkAction } from 'redux-thunk';
-import { AnyAction } from 'redux';
 
 
 
@@ -57,6 +55,7 @@ export const getIngredients = () => {
     dispatch(fetchIngredientsRequest());
     request('/ingredients')
       .then((data) => {
+       
         dispatch(fetchIngredientsSuccess(data.data));
       })
       .catch((error) => dispatch(fetchIngredientsFailure(error)));
@@ -70,7 +69,6 @@ export const getOrderInfo = (number: number) => {
   return (dispatch: AppDispatch) => {
   authRequest(`/orders/${number}`)
       .then((data) => {
-        console.log(data.orders[0]);
         
         dispatch(setCurrentOrder(data.orders[0]));
       })
@@ -90,6 +88,7 @@ export const sendOrder = (order: {
 
     authRequest('/orders', 'POST', { ingredients })
       .then((data) => {
+        
         dispatch(sendOrderSuccess(data));
         dispatch(clearConstructor());
       })
@@ -115,7 +114,7 @@ export const login = (
         setCookie('refreshToken', response.refreshToken);
 
         setCookie('accessToken', accessToken);
-
+        
         dispatch(loginSuccess(response.user));
       }
     } catch (error) {
@@ -169,12 +168,16 @@ export const refreshToken = (): AppThunk => {
 
 export const getUserData = (): AppThunk => {
   return async (dispatch) => {
+    dispatch(setLoadinDataStart())
     try {
       const response = await authRequest('/auth/user');
 
       if (response.success) {
-        dispatch(getUserDataSuccess(response.user));
+        dispatch(getUserDataSuccess(response.user))
+        dispatch(setLoadinDataFinish())
+
       }
+
     } catch (error) {
       if ((error = 'jwt expired')) {
         try {
@@ -182,8 +185,13 @@ export const getUserData = (): AppThunk => {
           const updatedResponse = await authRequest('/auth/user');
           if (updatedResponse.success) {
             dispatch(getUserDataSuccess(updatedResponse.user));
+            dispatch(setLoadinDataFinish())
+
           }
+
         } catch (refreshError) {
+          dispatch(setLoadinDataFinish())
+
           console.error('Ошибка при обновлении токена:', refreshError);
         }
       }

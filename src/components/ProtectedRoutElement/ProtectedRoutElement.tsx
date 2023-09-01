@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import Loader from '../loader/loader';
 
 interface ProtectedRouteElementProps {
   element: React.ReactNode;
@@ -11,17 +12,28 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
   element,
   onlyAuth,
 }) => {
+  const location = useLocation();
   const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
+  const dataLoading = useAppSelector((store) => store.auth.dataLoading)
+  
+  console.log(dataLoading);
+  if (dataLoading) {
+    return <Loader />
+  }
 
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isAuthenticated && onlyAuth) {
-      navigate('/login', { replace: true });
-    } else if (isAuthenticated && !onlyAuth) {
-      navigate('/', { replace: true });
-    }
-  }, [isAuthenticated, onlyAuth, navigate]);
+  const from = location.state?.from || '/';
 
-  return <>{isAuthenticated && onlyAuth ? element : !isAuthenticated && !onlyAuth && element}</>;
+
+  if (!onlyAuth && isAuthenticated) {
+    return <Navigate to={ from } />;
+
+  }
+
+  if (onlyAuth && !isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location}}/>;
+
+  }
+
+  return <>{element}</>;
 };

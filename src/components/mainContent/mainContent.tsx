@@ -66,7 +66,7 @@ function MainContent() {
 
         <Route
           path="/profile/orders/:id"
-          element={<ProtectedRouteElement element={<OrderContent isPage={true} />} />}
+          element={<ProtectedRouteElement onlyAuth element={<OrderContent isPage={true} />} />}
         />
 
         <Route path="*" element={<ErrorPage />} />
